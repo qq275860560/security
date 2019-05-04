@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta content="text/html;charset=UTF-8" />
+<title>主页</title>
+</head>
+<body>
+
+	<p>用户名</p>
+	<p th:text="${entity.username}"></p>
+	<p>权限</p>
+	<p th:text="${entity.authorities}"></p>
+	<p>用户状态</p>
+	<p th:text="${entity.isEnable}"></p>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="注销" />
+	</form>
+</body>
+</html>

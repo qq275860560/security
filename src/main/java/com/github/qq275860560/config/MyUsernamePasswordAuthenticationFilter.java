@@ -1,0 +1,62 @@
+package com.github.qq275860560.config;
+
+import java.security.PrivateKey;
+import java.util.ArrayList;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
+ 
+/**
+ * @author jiangyuanlin@163.com
+ *
+ */
+@Slf4j
+public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	 private ObjectMapper objectMapper;
+	public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
+			ObjectMapper objectMapper  , long expirationSeconds,
+			MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
+			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler ) {
+		super.setAuthenticationManager(authenticationManager);
+		super.setAuthenticationSuccessHandler(mySimpleUrlAuthenticationSuccessHandler);
+		super.setAuthenticationFailureHandler(mySimpleUrlAuthenticationFailureHandler);
+		this.objectMapper = objectMapper;
+	}
+
+	/*
+	 * curl -i -H "Content-Type:application/json;charset=UTF-8" -X POST	  http://localhost:8080/login -d   '{"username":"username1","password":"password1"}'
+	 */
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+			throws AuthenticationException {
+		log.info("登录");
+		Map<String, Object> map = null;
+		try {
+			map = objectMapper.readValue(request.getInputStream(), Map.class);
+		} catch (Exception e) {
+			log.error("",e);
+			throw new UsernameNotFoundException(e.getMessage());
+		}
+		//
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+				map.get("username"), (String) map.get("password"), new ArrayList<>());
+		usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+		// setDetails(request, usernamePasswordAuthenticationToken);
+		return this.getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
+
+	}
+
+}
