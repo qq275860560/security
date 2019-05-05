@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.io.IOException;
 
@@ -52,7 +52,6 @@ public class MyFilterSecurityInterceptor extends FilterSecurityInterceptor {
 
 		InterceptorStatusToken interceptorStatusToken = super.beforeInvocation(filterInvocation);
 		try {
-
 			filterInvocation.getChain().doFilter(filterInvocation.getRequest(), filterInvocation.getResponse());
 		} finally {
 			super.afterInvocation(interceptorStatusToken, null);

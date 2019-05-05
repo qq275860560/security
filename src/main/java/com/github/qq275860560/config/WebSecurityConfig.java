@@ -26,6 +26,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.qq275860560.security.MyAccessDeniedHandler;
+import com.github.qq275860560.security.MyAuthenticationEntryPoint;
+import com.github.qq275860560.security.MyAuthenticationFilter;
+import com.github.qq275860560.security.MyLogoutSuccessHandler;
+import com.github.qq275860560.security.MySimpleUrlAuthenticationFailureHandler;
+import com.github.qq275860560.security.MySimpleUrlAuthenticationSuccessHandler;
+import com.github.qq275860560.security.MyUserDetailsService;
+import com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -114,7 +122,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterAt(new MyUsernamePasswordAuthenticationFilter(authenticationManager(), objectMapper,
 				  expirationSeconds, mySimpleUrlAuthenticationSuccessHandler,
 				mySimpleUrlAuthenticationFailureHandler), UsernamePasswordAuthenticationFilter.class);
-		http.addFilter(new MyAuthenticationFilter(authenticationManager(), objectMapper, getPublicKey(),
+		http.addFilter(new MyAuthenticationFilter(authenticationManager(), objectMapper, publicKey,
 				myUserDetailsService));
 
 		http.httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint);
@@ -136,41 +144,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler;
 
 	@Autowired
+	private PublicKey publicKey;
+	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Value("${expirationSeconds}")
 	private long expirationSeconds;
-
-	@Value("${jwtJksFileName}")
-	private String jwtJksFileName;
-	@Value("${jwtJksPassword}")
-	private String jwtJksPassword;
-	@Value("${jwtJksAlias}")
-	private String jwtJksAlias;
-
-	@Bean
-	public PrivateKey getPrivateKey() throws KeyStoreException, IOException, NoSuchAlgorithmException,
-			CertificateException, UnrecoverableKeyException {
-
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
-
-		KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(inputStream, jwtJksPassword.toCharArray());
-
-		return (PrivateKey) keyStore.getKey(jwtJksAlias, jwtJksPassword.toCharArray());
-
-	}
-
-	@Bean
-	public PublicKey getPublicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException,
-			CertificateException, UnrecoverableKeyException {
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
-
-		KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(inputStream, jwtJksPassword.toCharArray());
-
-		return keyStore.getCertificate(jwtJksAlias).getPublicKey();
-
-	}
 
 }

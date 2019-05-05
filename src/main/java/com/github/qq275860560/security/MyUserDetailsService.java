@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("授权:获取用户对应的角色权限/名称列表");
+		log.info("授权:获取用户对应的角色权限");
 		User user = userDao.findByUserName(username);
 		if (user == null) {
 			log.error(username+"账号不存在");

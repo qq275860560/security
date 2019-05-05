@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.security.PrivateKey;
 import java.util.ArrayList;
@@ -18,18 +18,19 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
- 
+
 /**
  * @author jiangyuanlin@163.com
  *
  */
 @Slf4j
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	 private ObjectMapper objectMapper;
+	private ObjectMapper objectMapper;
+
 	public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-			ObjectMapper objectMapper  , long expirationSeconds,
+			ObjectMapper objectMapper, long expirationSeconds,
 			MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
-			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler ) {
+			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler) {
 		super.setAuthenticationManager(authenticationManager);
 		super.setAuthenticationSuccessHandler(mySimpleUrlAuthenticationSuccessHandler);
 		super.setAuthenticationFailureHandler(mySimpleUrlAuthenticationFailureHandler);
@@ -37,7 +38,9 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	}
 
 	/*
-	 * curl -i -H "Content-Type:application/json;charset=UTF-8" -X POST	  http://localhost:8080/login -d   '{"username":"username1","password":"password1"}'
+	 * curl -i -H "Content-Type:application/json;charset=UTF-8" -X POST
+	 * http://localhost:8080/login -d
+	 * '{"username":"username1","password":"password1"}'
 	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -47,9 +50,10 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 		try {
 			map = objectMapper.readValue(request.getInputStream(), Map.class);
 		} catch (Exception e) {
-			log.error("",e);
+			log.error("", e);
 			throw new UsernameNotFoundException(e.getMessage());
 		}
+		//可加入图片验证码/短信验证码逻辑
 		//
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 				map.get("username"), (String) map.get("password"), new ArrayList<>());

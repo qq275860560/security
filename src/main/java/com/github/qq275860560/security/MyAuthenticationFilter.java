@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.io.IOException;
 import java.security.PublicKey;
@@ -28,16 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 public class MyAuthenticationFilter extends BasicAuthenticationFilter {
 
  
-	private PublicKey publicKey = null;
+	private PublicKey publicKey  ;
 
- 
-
+	private ObjectMapper objectMapper  ; 
 	private MyUserDetailsService myUserDetailsService;
 
-	public MyAuthenticationFilter(AuthenticationManager authenticationManager, ObjectMapper objectMapper ,
+	public MyAuthenticationFilter(AuthenticationManager authenticationManager,ObjectMapper objectMapper ,
 			PublicKey publicKey, MyUserDetailsService myUserDetailsService) {
 		super(authenticationManager);
- 		this.publicKey = publicKey;
+		this.objectMapper = objectMapper;	 
+		this.publicKey = publicKey;
 		this.myUserDetailsService = myUserDetailsService;
 
 	}

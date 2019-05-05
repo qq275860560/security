@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +31,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
  
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-		log.info("授权:获取url对应的角色权限/名称列表");
+		log.info("授权:获取url对应的角色权限");
 		HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
 		String requestURI = request.getRequestURI();
 		Set<String> set = roleDao.getRoleNameSetByUrI(requestURI);// 获取url及其正则对应角色/权限,比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集

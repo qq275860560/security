@@ -1,4 +1,4 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public  
 class MyAccessDecisionManager implements AccessDecisionManager {
-	//比较用户的角色/权限名称 和 url的角色权限/名称列表，如果至少一个相同，则认为有权限	
+	//比较用户的角色/权限名称 和 url的角色权限，如果至少一个相同，则放行	
 	
 	@Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
