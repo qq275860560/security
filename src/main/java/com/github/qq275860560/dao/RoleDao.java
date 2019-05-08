@@ -26,7 +26,7 @@ public class RoleDao {
 		for (String tmp : list) {
 			if (antPathMatcher.match(tmp, url)) {
 				List<String> tmpList = listRoleNameByUrI(tmp);
-				if (tmpList == null || tmpList.size() == 0) {// 至少有一个匹配url不需要权限时，立即放行
+				if (tmpList == null || tmpList.isEmpty()) {// 至少有一个匹配url不需要权限时，立即放行
 					return null;
 				} else {
 					set.addAll(tmpList);
@@ -50,7 +50,7 @@ public class RoleDao {
 		} else {
 			return null;
 		}
-	};
+	}
 
 	public List<String> listRoleNameByUsername(String username) {
 		if (username.equals("username1")) {

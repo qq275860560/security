@@ -30,13 +30,13 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
  
 	private PublicKey publicKey  ;
 
-	private ObjectMapper objectMapper  ; 
+
 	private MyUserDetailsService myUserDetailsService;
 
-	public MyAuthenticationFilter(AuthenticationManager authenticationManager,ObjectMapper objectMapper ,
+	public MyAuthenticationFilter(AuthenticationManager authenticationManager ,
 			PublicKey publicKey, MyUserDetailsService myUserDetailsService) {
 		super(authenticationManager);
-		this.objectMapper = objectMapper;	 
+	 	 
 		this.publicKey = publicKey;
 		this.myUserDetailsService = myUserDetailsService;
 

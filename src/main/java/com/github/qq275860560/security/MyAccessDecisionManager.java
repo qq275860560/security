@@ -3,18 +3,14 @@ package com.github.qq275860560.security;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.FilterInvocation;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 
 /**

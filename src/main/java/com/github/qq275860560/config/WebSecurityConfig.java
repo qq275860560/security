@@ -1,14 +1,6 @@
 package com.github.qq275860560.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -120,9 +112,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().anyRequest().authenticated();
 
 		http.addFilterAt(new MyUsernamePasswordAuthenticationFilter(authenticationManager(), objectMapper,
-				  expirationSeconds, mySimpleUrlAuthenticationSuccessHandler,
+				    mySimpleUrlAuthenticationSuccessHandler,
 				mySimpleUrlAuthenticationFailureHandler), UsernamePasswordAuthenticationFilter.class);
-		http.addFilter(new MyAuthenticationFilter(authenticationManager(), objectMapper, publicKey,
+		http.addFilter(new MyAuthenticationFilter(authenticationManager(),  publicKey,
 				myUserDetailsService));
 
 		http.httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint);

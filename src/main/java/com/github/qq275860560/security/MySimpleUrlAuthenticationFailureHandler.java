@@ -45,7 +45,7 @@ public class MySimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthentica
         
         
        
-       //如果是传统登录，super.onAuthenticationFailure(request, response, exception);
+ 
         
     
     }

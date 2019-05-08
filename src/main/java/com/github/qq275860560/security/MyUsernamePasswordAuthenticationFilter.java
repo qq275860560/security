@@ -1,6 +1,5 @@
 package com.github.qq275860560.security;
 
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	private ObjectMapper objectMapper;
 
 	public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-			ObjectMapper objectMapper, long expirationSeconds,
+			ObjectMapper objectMapper,
 			MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
 			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler) {
 		super.setAuthenticationManager(authenticationManager);
