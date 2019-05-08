@@ -38,9 +38,9 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	}
 
 	/*
-	 * curl -i -H "Content-Type:application/json;charset=UTF-8" -X POST
-	 * http://localhost:8080/login -d
-	 * '{"username":"username1","password":"password1"}'
+	  curl -i -H "Content-Type:application/json;charset=UTF-8" \
+	  -X POST   http://localhost:8080/login \
+	  -d '{"username":"username1","password":"password1"}'
 	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -60,7 +60,6 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 		usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 		// setDetails(request, usernamePasswordAuthenticationToken);
 		return this.getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
-
 	}
 
 }
