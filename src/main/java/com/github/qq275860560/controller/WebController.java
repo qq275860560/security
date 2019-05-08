@@ -25,14 +25,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebController {
 
+	/**
+	 * @param userDetail
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/")
-	public String index(@AuthenticationPrincipal org.springframework.security.core.userdetails.User loginedUser,
+	public String index(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail,
 			Model model) {
+		log.info("当前用户=" + userDetail);
 		model.addAttribute("entity", new HashMap<String, Object>() {
 			{
-				put("username", loginedUser.getUsername());
-				put("authorities", loginedUser.getAuthorities());
-				put("isEnable", loginedUser.isEnabled());
+				put("username", userDetail.getUsername());
+				put("authorities", userDetail.getAuthorities());
+				put("isEnable", userDetail.isEnabled());
 
 			}
 		});
@@ -50,11 +56,12 @@ public class WebController {
 	// curl -i -H "Content-Type:application/json;charset=UTF-8" -H
 	// "Authorization:Bearer
 	// eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTY3Nzk2Nzh9.ed1SXt85vLTmQ4LSKvjvNjcJ9af347YVPgSCVAP5rO9LT1z6L1f_JCFLnbu4c9VYvp5dllNQIdXEphE2qVhQkJ4-qTMakvvkqq4GhWXYYen_AQBngB4XQU788RxfQQXmRQsU3JoUdlrbSNoVS7_M_fioid8ci4SlQIc_-Ph_DyY"
-	// -X POST http://localhost:8080/listUser
+	// -X POST http://localhost:8080/api/github/qq275860560/web/listUser
 	// @Secured({"ROLE_ADMIN","ROLE_USER1"})
-	@RequestMapping(value = "/listUser", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/api/github/qq275860560/web/listUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Map<String, Object> listUser() {
+	public Map<String, Object> listUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail) {
+		log.info("当前用户=" + userDetail);
 		List<Map<String, Object>> list = userDao.listUser();
 		return new HashMap<String, Object>() {
 			{
@@ -65,9 +72,10 @@ public class WebController {
 		};
 	}
 
-	@RequestMapping(value = "/saveUser", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/api/github/qq275860560/web/saveUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Map<String, Object> saveUser() {
+	public Map<String, Object> saveUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail) {
+		log.info("当前用户=" + userDetail);
 		return new HashMap<String, Object>() {
 			{
 				put("code", HttpStatus.OK);
@@ -77,11 +85,11 @@ public class WebController {
 		};
 	}
 
-	@RequestMapping(value = "/updateUser", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "/api/github/qq275860560/web/updateUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public Map<String, Object> updateUser(
-			@AuthenticationPrincipal org.springframework.security.core.userdetails.User loginedUser) {
-		log.info("" + loginedUser);
+			@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail) {
+		log.info("当前用户=" + userDetail);
 		return new HashMap<String, Object>() {
 			{
 				put("code", HttpStatus.OK);

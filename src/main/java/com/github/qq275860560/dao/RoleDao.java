@@ -40,11 +40,9 @@ public class RoleDao {
 
 		if (url.equals("/")) {
 			return Arrays.asList("ROLE_HOME");
-		} else if (url.equals("/updateUser")) {
+		} else if (url.equals("/api/github/qq275860560/web/updateUser")) {
 			return Arrays.asList("ROLE_ADMIN");
-		} else if (url.equals("/admin")) {
-			return Arrays.asList("ROLE_ADMIN", "ROLE_HOME");
-		} else if (url.equals("/listUser")) {
+		} else if (url.equals("/api/github/qq275860560/web/listUser")) {
 			return Arrays.asList("ROLE_ADMIN", "ROLE_USER");
 			// return null;
 		} else {
