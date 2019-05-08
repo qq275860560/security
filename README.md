@@ -33,7 +33,8 @@ com.github.qq275860560.security.MyLogoutSuccessHandler
 ## 退出失败
 
 # 使用方式
-在对应的类中修改代码,比如在认证失败的时候，修改MyAuthenticationEntryPoint的commence方法即可
+## 修改代码
+根据业务要求，在对应的类中修改代码,比如在认证失败的时候，修改MyAuthenticationEntryPoint的commence方法即可
 ```
 /**
  * @author jiangyuanlin@163.com
@@ -61,11 +62,16 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 }
 ```
 
+## 运行
 命令行切换到项目根目录下，执行
 ```
 mvn spring-boot:run
 ```
-此时，本地会默认开启8080端口，命令行执行登录
+
+此时，本地会默认开启8080端口
+
+## 登录
+执行命令
 ```
 curl -i -H "Content-Type:application/json;charset=UTF-8" \
 	  -X POST   http://localhost:8080/login \
@@ -90,7 +96,9 @@ Date: Wed, 08 May 2019 01:56:49 GMT
 
 ```
 
-响应头部Authorization对应的值就是token，以后带着token就可以高高兴兴的访问系统了
+响应头部Authorization对应的值就是token，以后带着token就可以高高兴兴的访问系统了,只要有权限就会访问
+
+## 访问
 ```
 curl -i -H "Content-Type:application/json;charset=UTF-8" \
 -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g" \
