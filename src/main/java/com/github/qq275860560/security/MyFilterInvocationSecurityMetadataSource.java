@@ -28,7 +28,6 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 	@Autowired
 	private RoleDao roleDao;
 
- 
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		log.info("授权:获取url对应的角色权限");

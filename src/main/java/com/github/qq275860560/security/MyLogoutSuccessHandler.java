@@ -23,21 +23,24 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Component
-@Slf4j         
+@Slf4j
 public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 
-	   
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
+
 	@Override
-    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		  log.info("退出成功");
-		  //可加入清除redis逻辑，实现服务端退出
-	    	response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-	        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String ,Object>() {{
-	        	put("code",  HttpStatus.OK.value());
-	        	put("msg", "退出成功");
-	        	put("data", authentication);
-	        }}));
-    }
+	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+			throws IOException, ServletException {
+		log.info("退出成功");
+		// 可加入清除redis逻辑，实现服务端退出
+		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
+			{
+				put("code", HttpStatus.OK.value());
+				put("msg", "退出成功");
+				put("data", authentication);
+			}
+		}));
+	}
 }

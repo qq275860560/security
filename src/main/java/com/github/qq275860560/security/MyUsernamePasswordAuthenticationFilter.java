@@ -27,8 +27,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	private ObjectMapper objectMapper;
 
 	public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-			ObjectMapper objectMapper,
-			MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
+			ObjectMapper objectMapper, MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
 			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler) {
 		super.setAuthenticationManager(authenticationManager);
 		super.setAuthenticationSuccessHandler(mySimpleUrlAuthenticationSuccessHandler);
@@ -37,9 +36,9 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	}
 
 	/*
-	  curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	  -X POST   http://localhost:8080/login \
-	  -d '{"username":"username1","password":"password1"}'
+	 * curl -i -H "Content-Type:application/json;charset=UTF-8" \ -X POST
+	 * http://localhost:8080/login \ -d
+	 * '{"username":"username1","password":"password1"}'
 	 */
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -52,7 +51,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 			log.error("", e);
 			throw new UsernameNotFoundException(e.getMessage());
 		}
-		//可加入图片验证码/短信验证码逻辑
+		// 可加入图片验证码/短信验证码逻辑
 		//
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 				map.get("username"), (String) map.get("password"), new ArrayList<>());

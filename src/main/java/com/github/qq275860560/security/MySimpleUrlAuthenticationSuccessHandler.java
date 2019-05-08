@@ -28,44 +28,38 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Component
-@Slf4j         
+@Slf4j
 public class MySimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	  @Value("${key}")
-		private String key;
-	    @Value("${expirationSeconds}")
-	    private long expirationSeconds;
-	    
+	@Value("${key}")
+	private String key;
+	@Value("${expirationSeconds}")
+	private long expirationSeconds;
+
 	@Autowired
-    private   PrivateKey privateKey  ;
- 
-	
- 
+	private PrivateKey privateKey;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException, ServletException {
-        
-        
-        
-        log.info("登录成功");
-    	String token = Jwts.builder()
-                .setSubject(authentication.getName())
-                .setExpiration(new Date(System.currentTimeMillis() + expirationSeconds  * 1000))
-                .signWith(SignatureAlgorithm.RS256, privateKey)
-                .compact();
-        response.addHeader("Authorization", "Bearer " + token);
-        
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().write( objectMapper.writeValueAsString(new HashMap<String,Object>() {{
-     	   put("code", HttpStatus.OK.value());
-     	   put("msg","登录成功");
-     	   put("data",null);
-        }} )  );
-        
-        
-    }
-} 
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+			Authentication authentication) throws IOException, ServletException {
+
+		log.info("登录成功");
+		String token = Jwts.builder().setSubject(authentication.getName())
+				.setExpiration(new Date(System.currentTimeMillis() + expirationSeconds * 1000))
+				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
+		response.addHeader("Authorization", "Bearer " + token);
+
+		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
+			{
+				put("code", HttpStatus.OK.value());
+				put("msg", "登录成功");
+				put("data", null);
+			}
+		}));
+
+	}
+}

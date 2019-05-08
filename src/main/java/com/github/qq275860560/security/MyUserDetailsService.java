@@ -35,22 +35,22 @@ public class MyUserDetailsService implements UserDetailsService {
 		log.info("授权:获取用户对应的角色权限");
 		User user = userDao.findByUserName(username);
 		if (user == null) {
-			log.error(username+"账号不存在");
-			throw new UsernameNotFoundException(username+"账号不存在");
+			log.error(username + "账号不存在");
+			throw new UsernameNotFoundException(username + "账号不存在");
 		}
 		String password = user.getPassword();
-		boolean enabled=true;// 帐号是否可用
-		boolean accountNonExpired=true;// 帐户是否过期 
-		boolean credentialsNonExpired=true;// 帐户密码是否过期，一般有的密码要求性高的系统会使用到，比较每隔一段时间就要求用户重置密码
-		boolean accountNonLocked=true;// 帐户是否被冻结
-		
+		boolean enabled = true;// 帐号是否可用
+		boolean accountNonExpired = true;// 帐户是否过期
+		boolean credentialsNonExpired = true;// 帐户密码是否过期，一般有的密码要求性高的系统会使用到，比较每隔一段时间就要求用户重置密码
+		boolean accountNonLocked = true;// 帐户是否被冻结
+
 		List<String> list = roleDao.listRoleNameByUsername(user.getUsername());
 		// 初始化用户的权限
-		List<GrantedAuthority> grantedAuthorities = 
-		 AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils.join(list.toArray(), ","));
+		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
+				.commaSeparatedStringToAuthorityList(StringUtils.join(list.toArray(), ","));
 		// controller方法参数通过@AuthenticationPrincipal可以获得该对象
-		return new org.springframework.security.core.userdetails.User(username, password,enabled,accountNonExpired,credentialsNonExpired,accountNonLocked, grantedAuthorities);
-		
+		return new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired,
+				credentialsNonExpired, accountNonLocked, grantedAuthorities);
 
 	}
 

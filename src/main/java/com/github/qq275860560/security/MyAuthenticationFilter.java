@@ -27,16 +27,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyAuthenticationFilter extends BasicAuthenticationFilter {
 
- 
-	private PublicKey publicKey  ;
-
+	private PublicKey publicKey;
 
 	private MyUserDetailsService myUserDetailsService;
 
-	public MyAuthenticationFilter(AuthenticationManager authenticationManager ,
-			PublicKey publicKey, MyUserDetailsService myUserDetailsService) {
+	public MyAuthenticationFilter(AuthenticationManager authenticationManager, PublicKey publicKey,
+			MyUserDetailsService myUserDetailsService) {
 		super(authenticationManager);
-	 	 
+
 		this.publicKey = publicKey;
 		this.myUserDetailsService = myUserDetailsService;
 
@@ -63,7 +61,7 @@ public class MyAuthenticationFilter extends BasicAuthenticationFilter {
 				userDetails.getPassword(), userDetails.getAuthorities());
 		// 初始化UserDetail
 		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		
+
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		chain.doFilter(request, response);

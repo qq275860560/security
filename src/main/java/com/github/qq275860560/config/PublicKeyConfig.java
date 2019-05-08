@@ -31,8 +31,7 @@ public class PublicKeyConfig {
 	private String jwtJksAlias;
 
 	@Bean
-	public PublicKey publicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException,
-			UnrecoverableKeyException {
+	public PublicKey publicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
 
 		KeyStore keyStore = KeyStore.getInstance("JKS");

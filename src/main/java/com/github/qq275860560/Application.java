@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @Slf4j
 public class Application {
-    public static void main(String[] args) {
-        run(Application.class, args);
-    }
+	public static void main(String[] args) {
+		run(Application.class, args);
+	}
 
 }

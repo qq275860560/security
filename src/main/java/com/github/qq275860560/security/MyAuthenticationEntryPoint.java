@@ -22,23 +22,26 @@ import lombok.extern.slf4j.Slf4j;
  * @author jiangyuanlin@163.com
  *  
  */
- 
+
 @Component
-@Slf4j         
+@Slf4j
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
+	@Autowired
+	private ObjectMapper objectMapper;
+
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException, ServletException {
 
-        log.info("认证失败",authException);
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String ,Object>() {{
-        	put("code", HttpStatus.UNAUTHORIZED.value());
-        	put("msg", "认证失败");
-        	put("data", authException.getMessage());
-        }}));
-    }
+		log.info("认证失败", authException);
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
+			{
+				put("code", HttpStatus.UNAUTHORIZED.value());
+				put("msg", "认证失败");
+				put("data", authException.getMessage());
+			}
+		}));
+	}
 }

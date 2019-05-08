@@ -23,30 +23,26 @@ import lombok.extern.slf4j.Slf4j;
  *
  */
 @Component
-@Slf4j         
+@Slf4j
 public class MySimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 
-   
-    @Autowired
-    private ObjectMapper objectMapper;
+	@Autowired
+	private ObjectMapper objectMapper;
 
-    @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-                                        AuthenticationException exception) throws IOException, ServletException {
+	@Override
+	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException exception) throws IOException, ServletException {
 
-        log.info("登录失败");
-        response.setStatus(HttpStatus.BAD_REQUEST.value());
-        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String ,Object>() {{
-        	put("code", HttpStatus.BAD_REQUEST.value());
-        	put("msg", "登录失败");
-        	put("data", exception.getMessage());
-        }}));
-        
-        
-       
- 
-        
-    
-    }
-} 
+		log.info("登录失败");
+		response.setStatus(HttpStatus.BAD_REQUEST.value());
+		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
+			{
+				put("code", HttpStatus.BAD_REQUEST.value());
+				put("msg", "登录失败");
+				put("data", exception.getMessage());
+			}
+		}));
+
+	}
+}

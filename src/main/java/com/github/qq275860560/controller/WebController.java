@@ -47,7 +47,10 @@ public class WebController {
 	@Autowired
 	private UserDao userDao;
 
-	// curl -i -H "Content-Type:application/json;charset=UTF-8" -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTY3Nzk2Nzh9.ed1SXt85vLTmQ4LSKvjvNjcJ9af347YVPgSCVAP5rO9LT1z6L1f_JCFLnbu4c9VYvp5dllNQIdXEphE2qVhQkJ4-qTMakvvkqq4GhWXYYen_AQBngB4XQU788RxfQQXmRQsU3JoUdlrbSNoVS7_M_fioid8ci4SlQIc_-Ph_DyY" -X POST http://localhost:8080/listUser
+	// curl -i -H "Content-Type:application/json;charset=UTF-8" -H
+	// "Authorization:Bearer
+	// eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTY3Nzk2Nzh9.ed1SXt85vLTmQ4LSKvjvNjcJ9af347YVPgSCVAP5rO9LT1z6L1f_JCFLnbu4c9VYvp5dllNQIdXEphE2qVhQkJ4-qTMakvvkqq4GhWXYYen_AQBngB4XQU788RxfQQXmRQsU3JoUdlrbSNoVS7_M_fioid8ci4SlQIc_-Ph_DyY"
+	// -X POST http://localhost:8080/listUser
 	// @Secured({"ROLE_ADMIN","ROLE_USER1"})
 	@RequestMapping(value = "/listUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
@@ -74,7 +77,6 @@ public class WebController {
 		};
 	}
 
-	 
 	@RequestMapping(value = "/updateUser", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
 	public Map<String, Object> updateUser(
