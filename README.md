@@ -1,7 +1,7 @@
 登录认证授权模板
 
 # 适用场景
-此项目为登录认证授权模板，如果项目为spring，可以模仿该项目进行安全控制,适用于传统表单的session-cookie认证模式和微服务jwt认证模式，以jwt无状态化为例，包括但不限于以下功能
+此项目为登录认证授权模板，如果项目采用spring框架，那么可以模仿该项目进行安全控制,适用于传统表单的session-cookie认证模式和微服务jwt认证模式，以jwt无状态化为例，包括但不限于以下功能
 
 ## 登录
 com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter
