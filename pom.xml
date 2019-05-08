@@ -1,25 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.qq275860560</groupId>
 	<artifactId>github-qq275860560-security</artifactId>
-	<version>1.0.0</version>
+	<version>20190508</version>
 	<packaging>jar</packaging>
 	<name>github-qq275860560-security</name>
+	<description>github-qq275860560-common</description>	
+	<url>https://github.com/qq275860560/common</url> 
+	
+	<licenses>
+     <license>
+       <name>The Apache License, Version 2.0</name>
+       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+     </license>
+   </licenses>
+   <scm>
+      <connection>
+         scm:git:https://github.com/qq275860560/security.git
+      </connection>
+      <developerConnection>
+         scm:git:https://github.com/qq275860560/security.git
+      </developerConnection>
+      <url>https://github.com/qq275860560/security</url>
+      <tag>master</tag>
+  </scm>   
+	<developers>
+    <developer>
+      <name>qq275860560</name>
+      <email>jiangyuanlin@163.com</email>  
+    </developer>
+  </developers>
+  
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.4.RELEASE</version>
     </parent>
-
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-
+    
+    <distributionManagement>
+		<snapshotRepository>
+                    <id>sonatype-nexus-snapshots</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository> 
+	</distributionManagement>
+     
     <dependencies>
    
         <dependency>
@@ -87,7 +117,7 @@
 			 <!-- 源码打包插件 -->   
              <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
+				<artifactId>maven-source-plugin</artifactId>		
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -96,7 +126,49 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>	
+			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> 
+            
+			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                    <!-- -Dgpg.passphrase='秘钥密码'或者-Darguments='gpg.passphrase=秘钥密码' -->
+                </executions>
+            </plugin>
+            <!-- <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin> -->          
             <!-- 拷贝依赖包插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -151,6 +223,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- 性能测试，安全测试,docker发布插件，暂略 -->
 			 <!-- 切换到项目根目录执行mvn sonar:sonar能够生成测试报告  http://132.122.237.68:9000可以查看 -->
              <plugin>
                      <groupId>org.sonarsource.scanner.maven</groupId>
