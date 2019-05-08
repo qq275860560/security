@@ -118,4 +118,4 @@ Date: Wed, 08 May 2019 02:00:52 GMT
 {"msg":"查询成功","code":"OK","data":[{"roles":"ROLE_ADMIN","userId":1,"username":"admin"},{"roles":"ROLE_ADMIN","userId":2,"username":"admin2"}]}
 
 ```
-# 喜欢请留下star,给我一点前进的动力,谢谢
+# 此项目将会长期维护，增加或改进实用的功能，喜欢请留下star,给我一点前进的动力,谢谢
