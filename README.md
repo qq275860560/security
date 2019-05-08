@@ -73,13 +73,16 @@ mvn spring-boot:run
 
 ## 登录
 执行命令
+
 ```
 curl -i -H "Content-Type:application/json;charset=UTF-8" \
 	  -X POST   http://localhost:8080/login \
 	  -d '{"username":"username1","password":"password1"}'
 
 ```
-响应结果
+
+## 响应结果
+
 ```
 HTTP/1.1 200
 Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g
@@ -99,13 +102,17 @@ Date: Wed, 08 May 2019 01:56:49 GMT
 
 响应头部Authorization对应的值就是token，以后带着token就可以高高兴兴的访问系统了,只要有权限就会访问
 
+
 ## 访问
+
 ```
 curl -i -H "Content-Type:application/json;charset=UTF-8" \
 -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g" \
 -X POST http://localhost:8080/api/github/qq275860560/web/listUser
 ```
-响应结果
+
+## 响应结果
+
 ```
 HTTP/1.1 200
 X-Content-Type-Options: nosniff
@@ -123,5 +130,6 @@ Date: Wed, 08 May 2019 02:00:52 GMT
 ```
 
 # 温馨提醒
+
 * 此项目将会得到长期维护，增加或改进实用的功能
 * 左上角点击star，将会给我继续前进的动力,谢谢
