@@ -72,14 +72,9 @@ curl -i -H "Content-Type:application/json;charset=UTF-8" \
 	  -d '{"username":"username1","password":"password1"}'
 
 ```
-打印结果
+响应结果
 ```
-$ curl -i -H "Content-Type:application/json;charset=UTF-8" \
->   -X POST   http://localhost:8080/login \
->   -d '{"username":"username1","password":"password1"}'
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100    92  100    45  100    47     45     47  0:00:01 --:--:--  0:00:01   173HTTP/1.1 200
+HTTP/1.1 200
 Authorization: Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
@@ -97,7 +92,24 @@ Date: Wed, 08 May 2019 01:56:49 GMT
 
 其中响应头部Authorization对应的值就是token，以后带着token就可以访问系统了
 ```
+curl -i -H "Content-Type:application/json;charset=UTF-8" \
+-H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g" \
+-X POST http://localhost:8080/listUser
+```
+响应结果
+```
+HTTP/1.1 200
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 1; mode=block
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json;charset=UTF-8
+Transfer-Encoding: chunked
+Date: Wed, 08 May 2019 02:00:52 GMT
+
+{"msg":"查询成功","code":"OK","data":[{"roles":"ROLE_ADMIN","userId":1,"username":"admin"},{"roles":"ROLE_ADMIN","userId":2,"username":"admin2"}]}
 
 ```
-
 # 喜欢请留下star,给我一点前进的动力,谢谢
