@@ -32,9 +32,11 @@ com.github.qq275860560.security.MyAccessDecisionManager
 com.github.qq275860560.security.MyAccessDeniedHandler
 
 ## 退出
+com.github.qq275860560.security.MyLogoutHandler
 ## 退出成功
 com.github.qq275860560.security.MyLogoutSuccessHandler
 ## 退出失败
+com.github.qq275860560.security.MyLogoutHandler
 
 # 使用方式
 ## 修改代码

@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.qq275860560.security.MyAccessDeniedHandler;
 import com.github.qq275860560.security.MyAuthenticationEntryPoint;
 import com.github.qq275860560.security.MyAuthenticationFilter;
+import com.github.qq275860560.security.MyLogoutHandler;
 import com.github.qq275860560.security.MyLogoutSuccessHandler;
 import com.github.qq275860560.security.MySimpleUrlAuthenticationFailureHandler;
 import com.github.qq275860560.security.MySimpleUrlAuthenticationSuccessHandler;
@@ -42,6 +43,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	MyUserDetailsService myUserDetailsService;
 	@Autowired
 	private MyLogoutSuccessHandler myLogoutSuccessHandler;
+	@Autowired
+	private MyLogoutHandler myLogoutHandler;
 	@Autowired
 	private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 	@Autowired
@@ -93,7 +96,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint);
 		http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
-		// http.logout().logoutSuccessHandler(myLogoutSuccessHandler) .
+		http.logout().addLogoutHandler(myLogoutHandler).logoutSuccessHandler(myLogoutSuccessHandler);
 		// deleteCookies("JSESSIONID").invalidateHttpSession(true) ;
 
 	}
