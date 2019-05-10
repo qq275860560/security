@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Slf4j
 public class UserRespository {
-	public User findByUserName(String username) {
+	public User findByUserName(String username)  {
 		if (username.equals("username1")) {
 			return User.builder().username("username1").password(new BCryptPasswordEncoder().encode("password1"))
 					.build();
@@ -30,7 +30,7 @@ public class UserRespository {
 		}
 	}
 
-	public Map<String, Object> pageUser() {
+	public Map<String, Object> pageUser() throws Exception {
 		Map<String, Object> map = new HashMap<>();
 		map.put("total", 2);	
 		List<Map<String, Object>> list= Arrays.asList(new HashMap<String, Object>() {
@@ -50,7 +50,7 @@ public class UserRespository {
 		return map;
 	}
 	
-	public List<Map<String, Object>> listUser() {
+	public List<Map<String, Object>> listUser() throws Exception  {
 		return Arrays.asList(new HashMap<String, Object>() {
 			{
 				put("userId", "1");
@@ -67,7 +67,7 @@ public class UserRespository {
 	}
 	
 	
-	public Map<String, Object> getUser(String id ) {
+	public Map<String, Object> getUser(String id )  throws Exception{
 		return new HashMap<String, Object>() {
 			{
 				put("userId", id);
@@ -78,13 +78,13 @@ public class UserRespository {
 		 
 	}
 	
-	public int saveUser(Map<String, Object> map ) {
+	public int saveUser(Map<String, Object> map )  throws Exception{
 		return 1;
 	}
-	public int deleteUser(String id ) {
+	public int deleteUser(String id )  throws Exception{
 		return 1;
 	}
-	public int updateUser(Map<String, Object> map ) {
+	public int updateUser(Map<String, Object> map )  throws Exception {
 		return 1;
 	}
 	

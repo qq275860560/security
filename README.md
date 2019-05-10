@@ -6,9 +6,9 @@
 
 # 功能
 ## 私钥配置
-com.github.qq275860560.config.PrivateKeyConfig
+com.github.qq275860560.security.PrivateKeyConfig
 ## 公钥配置
-com.github.qq275860560.config.PublicKeyConfig
+com.github.qq275860560.security.PublicKeyConfig
 ## 登录
 com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter
 ## 登录失败

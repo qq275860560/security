@@ -39,7 +39,7 @@ public class WebController {
 // @Secured({"ROLE_ADMIN","ROLE_USER1"})
 	@RequestMapping(value = "/api/github/qq275860560/web/pageUser", method =RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> pageUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail) {
+	public Map<String, Object> pageUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		Map<String, Object> data = userRespository.pageUser();
@@ -60,7 +60,7 @@ public class WebController {
 	*/
 	@RequestMapping(value = "/api/github/qq275860560/web/listUser", method =RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> listUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail) {
+	public Map<String, Object> listUser(@AuthenticationPrincipal org.springframework.security.core.userdetails.User userDetail)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		List<Map<String, Object>> data = userRespository.listUser();
@@ -80,7 +80,7 @@ public class WebController {
 	*/
 	@RequestMapping(value = "/api/github/qq275860560/web/getUser", method =RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> getUser(@RequestBody Map<String, Object> requestMap) {
+	public Map<String, Object> getUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		Map<String, Object> data=userRespository.getUser("");
@@ -101,7 +101,7 @@ public class WebController {
 	*/
 	@RequestMapping(value = "/api/github/qq275860560/web/saveUser", method =RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> saveUser(@RequestBody Map<String, Object> requestMap) {
+	public Map<String, Object> saveUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		userRespository.saveUser(requestMap);
@@ -124,7 +124,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/deleteUser", method =RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> deleteUser(
-			@RequestBody Map<String, Object> requestMap) {
+			@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		userRespository.deleteUser("");
@@ -147,7 +147,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/updateUser", method =RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> updateUser(
-			@RequestBody Map<String, Object> requestMap) {
+			@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
 		log.info("当前登录用户=" + username);
 		userRespository.updateUser(requestMap);

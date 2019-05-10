@@ -1,12 +1,11 @@
-package com.github.qq275860560.config;
+package com.github.qq275860560.security;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.UnrecoverableKeyException;
+import java.security.PublicKey;
 import java.security.cert.CertificateException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Configuration
 @Slf4j
-public class PrivateKeyConfig {
+public class PublicKeyConfig {
 
 	@Value("${jwtJksFileName}")
 	private String jwtJksFileName;
@@ -31,15 +30,14 @@ public class PrivateKeyConfig {
 	private String jwtJksAlias;
 
 	@Bean
-	public PrivateKey privateKey() throws KeyStoreException, IOException, NoSuchAlgorithmException,
-			CertificateException, UnrecoverableKeyException {
-		log.info("私钥配置");
+	public PublicKey publicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
+		log.info("公钥配置");
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
 
 		KeyStore keyStore = KeyStore.getInstance("JKS");
 		keyStore.load(inputStream, jwtJksPassword.toCharArray());
 
-		return (PrivateKey) keyStore.getKey(jwtJksAlias, jwtJksPassword.toCharArray());
+		return keyStore.getCertificate(jwtJksAlias).getPublicKey();
 
 	}
 
