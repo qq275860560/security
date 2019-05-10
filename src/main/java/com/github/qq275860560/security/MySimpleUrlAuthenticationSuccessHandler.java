@@ -31,8 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MySimpleUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	@Value("${key}")
-	private String key;
 	@Value("${expirationSeconds}")
 	private long expirationSeconds;
 

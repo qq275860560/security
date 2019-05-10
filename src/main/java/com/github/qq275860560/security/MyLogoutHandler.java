@@ -24,9 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyLogoutHandler implements LogoutHandler {
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		// 可加入清除redis逻辑，实现服务端退出
