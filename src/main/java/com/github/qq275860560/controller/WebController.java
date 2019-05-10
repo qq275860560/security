@@ -36,7 +36,6 @@ public class WebController {
 	   -X POST http://localhost:8080/api/github/qq275860560/web/pageUser \
 	   -d '{"pageNum":1,"pageSize":10}'
 	*/
-// @Secured({"ROLE_ADMIN","ROLE_USER1"})
 	@RequestMapping(value = "/api/github/qq275860560/web/pageUser", method =RequestMethod.POST)
 	public Map<String, Object> pageUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
