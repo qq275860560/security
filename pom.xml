@@ -50,8 +50,20 @@
                 </repository> 
 	</distributionManagement>
      
-    <dependencies>
-   
+    <properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.host.url>http://132.122.237.68:9000</sonar.host.url>
+		<sonar.language>java</sonar.language>
+		<sonar.scm.disabled>true</sonar.scm.disabled>
+		<sonar.inclusions>src/main/java/**/*.java</sonar.inclusions>
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
+		<sonar.java.libraries>target/dependency/*.jar</sonar.java.libraries>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>	
+		<sonar.ws.timeout>300</sonar.ws.timeout>
+ 	</properties>
+ 	
+    <dependencies>   
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
@@ -60,19 +72,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-        
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
-     
-
-        <!-- <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-        </dependency> -->
         <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
@@ -93,9 +92,7 @@
 		      <artifactId>spring-boot-devtools</artifactId>
 		      <optional>true</optional>
 	     </dependency>
-
-
-    </dependencies>
+	</dependencies>
     <build>
 	    <finalName>${project.artifactId}</finalName>
 		<plugins>
