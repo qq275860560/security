@@ -1,4 +1,4 @@
-package com.github.qq275860560.dao;
+package com.github.qq275860560.respository;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Repository
 @Slf4j
-public class RoleDao {
+public class RoleRespository {
 
 	public Set<String> getRoleNameSetByUrI(String url) {
 

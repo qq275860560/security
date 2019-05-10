@@ -11,9 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.github.qq275860560.dao.RoleDao;
-import com.github.qq275860560.dao.UserDao;
 import com.github.qq275860560.domain.User;
+import com.github.qq275860560.respository.RoleRespository;
+import com.github.qq275860560.respository.UserRespository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MyUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserRespository userRespository;
 	@Autowired
-	private RoleDao roleDao;
+	private RoleRespository roleRespository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.info("授权:获取用户对应的角色权限");
-		User user = userDao.findByUserName(username);
+		User user = userRespository.findByUserName(username);
 		if (user == null) {
 			log.error(username + "账号不存在");
 			throw new UsernameNotFoundException(username + "账号不存在");
@@ -44,7 +44,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		boolean credentialsNonExpired = true;// 帐户密码是否过期，一般有的密码要求性高的系统会使用到，比较每隔一段时间就要求用户重置密码
 		boolean accountNonLocked = true;// 帐户是否被冻结
 
-		List<String> list = roleDao.listRoleNameByUsername(user.getUsername());
+		List<String> list = roleRespository.listRoleNameByUsername(user.getUsername());
 		// 初始化用户的权限
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList(StringUtils.join(list.toArray(), ","));

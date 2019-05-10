@@ -110,8 +110,9 @@ Date: Wed, 08 May 2019 01:56:49 GMT
 
 ```
 curl -i -H "Content-Type:application/json;charset=UTF-8" \
--H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTczNjcwMDl9.H1JcMvQQInYx8IM2iTkW-WQIN8eUQw-mBwRbbT0SBoXKeyXijNM3jvDpHLBisWNIobwPDIUqMIGEdk3MRC6TBAeTHxmZZacZbNenrsn9mB8qJU_P1zG7Hi6mRjrPBtdg0cEW44VGl6z_cUNgh1wjR7aMMhNzF7EQ0JxQkBl4P5g" \
--X POST http://localhost:8080/api/github/qq275860560/web/listUser
+	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U" \
+	   -X POST http://localhost:8080/api/github/qq275860560/web/pageUser \
+	   -d '{"pageNum":1,"pageSize":10}'
 ```
 
 ## 响应结果
@@ -126,13 +127,14 @@ Expires: 0
 X-Frame-Options: DENY
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
-Date: Wed, 08 May 2019 02:00:52 GMT
+Date: Fri, 10 May 2019 02:34:50 GMT
 
-{"msg":"查询成功","code":"OK","data":[{"roles":"ROLE_ADMIN","userId":1,"username":"admin"},{"roles":"ROLE_ADMIN","userId":2,"username":"admin2"}]}
+{"msg":"搜索成功","code":"OK","data":{"total":2,"list":[{"roles":"ROLE_ADMIN","userId":"1","username":"admin"},{"roles":"ROLE_ADMIN","userId":"2","username":"admin2"}]}}
+
 
 ```
 
 # 温馨提醒
 
-* 此项目将会得到长期维护，增加或改进实用的功能
-* 左上角点击star，将会给我继续前进的动力,谢谢
+* 此项目将会长期维护，增加或改进实用的功能
+* 左上角点击star，给我继续前进的动力,谢谢

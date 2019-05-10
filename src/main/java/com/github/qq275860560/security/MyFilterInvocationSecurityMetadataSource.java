@@ -13,7 +13,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 
-import com.github.qq275860560.dao.RoleDao;
+import com.github.qq275860560.respository.RoleRespository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
 	@Autowired
-	private RoleDao roleDao;
+	private RoleRespository roleRespository;
 
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		log.info("授权:获取url对应的角色权限");
 		HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
 		String requestURI = request.getRequestURI();
-		Set<String> set = roleDao.getRoleNameSetByUrI(requestURI);// 获取url及其正则对应角色/权限,比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
+		Set<String> set = roleRespository.getRoleNameSetByUrI(requestURI);// 获取url及其正则对应角色/权限,比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
 		// 如果url对应的角色/权限为空或者包含ROLE_ANONYMOUS，直接放行，比如/login接口必定要放行(这种情况也可以通过WebSecurityConfigurerAdapter.configure(HttpSecurity)配置)
 		if (set == null || set.isEmpty() || set.contains("ROLE_ANONYMOUS"))
 			return null;

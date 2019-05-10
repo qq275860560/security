@@ -1,4 +1,4 @@
-package com.github.qq275860560.dao;
+package com.github.qq275860560.respository;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Repository
 @Slf4j
-public class UserDao {
+public class UserRespository {
 	public User findByUserName(String username) {
 		if (username.equals("username1")) {
 			return User.builder().username("username1").password(new BCryptPasswordEncoder().encode("password1"))
@@ -30,19 +30,65 @@ public class UserDao {
 		}
 	}
 
-	public List<Map<String, Object>> listUser() {
-		return Arrays.asList(new HashMap<String, Object>() {
+	public Map<String, Object> pageUser() {
+		Map<String, Object> map = new HashMap<>();
+		map.put("total", 2);	
+		List<Map<String, Object>> list= Arrays.asList(new HashMap<String, Object>() {
 			{
-				put("userId", 1);
+				put("userId", "1");
 				put("username", "admin");
 				put("roles", "ROLE_ADMIN");
 			}
 		}, new HashMap<String, Object>() {
 			{
-				put("userId", 2);
+				put("userId", "2");
+				put("username", "admin2");
+				put("roles", "ROLE_ADMIN");
+			}
+		});
+		map.put("list",list);
+		return map;
+	}
+	
+	public List<Map<String, Object>> listUser() {
+		return Arrays.asList(new HashMap<String, Object>() {
+			{
+				put("userId", "1");
+				put("username", "admin");
+				put("roles", "ROLE_ADMIN");
+			}
+		}, new HashMap<String, Object>() {
+			{
+				put("userId", "2");
 				put("username", "admin2");
 				put("roles", "ROLE_ADMIN");
 			}
 		});
 	}
+	
+	
+	public Map<String, Object> getUser(String id ) {
+		return new HashMap<String, Object>() {
+			{
+				put("userId", id);
+				put("username", "username"+id);
+				put("roles", "ROLE_ADMIN");
+			}
+		} ;
+		 
+	}
+	
+	public int saveUser(Map<String, Object> map ) {
+		return 1;
+	}
+	public int deleteUser(String id ) {
+		return 1;
+	}
+	public int updateUser(Map<String, Object> map ) {
+		return 1;
+	}
+	
+	
+	
+	
 }
