@@ -4,10 +4,10 @@
 
     <groupId>com.github.qq275860560</groupId>
 	<artifactId>github-qq275860560-security</artifactId>
-	<version>20190508</version>
+	<version>2019050819</version>
 	<packaging>jar</packaging>
 	<name>github-qq275860560-security</name>
-	<description>github-qq275860560-common</description>	
+	<description>github-qq275860560-commo</description>	
 	<url>https://github.com/qq275860560/common</url> 
 	
 	<licenses>
@@ -228,7 +228,7 @@
              <plugin>
                      <groupId>org.sonarsource.scanner.maven</groupId>
                      <artifactId>sonar-maven-plugin</artifactId>
-                     <version>3.5.0.1254</version>
+                     <version>3.6.0.1398</version>
              </plugin> 			
 		</plugins>
 	</build>

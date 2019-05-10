@@ -5,7 +5,10 @@
 支持微服务jwt认证模式，也支持传统表单的session-cookie认证模式
 
 # 功能
-
+## 私钥配置
+com.github.qq275860560.config.PrivateKeyConfig
+## 公钥配置
+com.github.qq275860560.config.PublicKeyConfig
 ## 登录
 com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter
 ## 登录失败

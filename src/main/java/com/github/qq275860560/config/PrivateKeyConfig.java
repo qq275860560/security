@@ -33,7 +33,7 @@ public class PrivateKeyConfig {
 	@Bean
 	public PrivateKey privateKey() throws KeyStoreException, IOException, NoSuchAlgorithmException,
 			CertificateException, UnrecoverableKeyException {
-
+		log.info("私钥配置");
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
 
 		KeyStore keyStore = KeyStore.getInstance("JKS");

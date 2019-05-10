@@ -31,6 +31,7 @@ public class PublicKeyConfig {
 
 	@Bean
 	public PublicKey publicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
+		log.info("公钥配置");
 		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
 
 		KeyStore keyStore = KeyStore.getInstance("JKS");
