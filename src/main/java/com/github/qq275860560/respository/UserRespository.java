@@ -8,8 +8,6 @@ import java.util.Map;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.github.qq275860560.domain.User;
-
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,12 +17,22 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Slf4j
 public class UserRespository {
-	public User findByUserName(String username)  {
+	public Map<String, Object> findByUserName(String username) {
 		if (username.equals("username1")) {
-			return User.builder().username("username1").password(new BCryptPasswordEncoder().encode("password1"))
-					.build();
+			return new HashMap<String, Object>() {
+				{
+					put("username", "username1");
+					put("password", new BCryptPasswordEncoder().encode("password1"));
+				}
+			};
+
 		} else if (username.equals("admin")) {
-			return User.builder().username("admin").password(new BCryptPasswordEncoder().encode("admin")).build();
+			return new HashMap<String, Object>() {
+				{
+					put("username", "admin");
+					put("password", new BCryptPasswordEncoder().encode("admin"));
+				}
+			};
 		} else {
 			return null;
 		}
@@ -32,8 +40,8 @@ public class UserRespository {
 
 	public Map<String, Object> pageUser() throws Exception {
 		Map<String, Object> map = new HashMap<>();
-		map.put("total", 2);	
-		List<Map<String, Object>> list= Arrays.asList(new HashMap<String, Object>() {
+		map.put("total", 2);
+		List<Map<String, Object>> list = Arrays.asList(new HashMap<String, Object>() {
 			{
 				put("userId", "1");
 				put("username", "admin");
@@ -46,11 +54,11 @@ public class UserRespository {
 				put("roles", "ROLE_ADMIN");
 			}
 		});
-		map.put("list",list);
+		map.put("list", list);
 		return map;
 	}
-	
-	public List<Map<String, Object>> listUser() throws Exception  {
+
+	public List<Map<String, Object>> listUser() throws Exception {
 		return Arrays.asList(new HashMap<String, Object>() {
 			{
 				put("userId", "1");
@@ -65,30 +73,28 @@ public class UserRespository {
 			}
 		});
 	}
-	
-	
-	public Map<String, Object> getUser(String id )  throws Exception{
+
+	public Map<String, Object> getUser(String id) throws Exception {
 		return new HashMap<String, Object>() {
 			{
 				put("userId", id);
-				put("username", "username"+id);
+				put("username", "username" + id);
 				put("roles", "ROLE_ADMIN");
 			}
-		} ;
-		 
+		};
+
 	}
-	
-	public int saveUser(Map<String, Object> map )  throws Exception{
+
+	public int saveUser(Map<String, Object> map) throws Exception {
 		return 1;
 	}
-	public int deleteUser(String id )  throws Exception{
+
+	public int deleteUser(String id) throws Exception {
 		return 1;
 	}
-	public int updateUser(Map<String, Object> map )  throws Exception {
+
+	public int updateUser(Map<String, Object> map) throws Exception {
 		return 1;
 	}
-	
-	
-	
-	
+
 }

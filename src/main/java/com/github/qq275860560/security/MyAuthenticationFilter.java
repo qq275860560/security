@@ -5,15 +5,20 @@ import java.security.PublicKey;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -22,47 +27,56 @@ import lombok.extern.slf4j.Slf4j;
  * @author jiangyuanlin@163.com
  *
  */
+@Component
 @Slf4j
-public class MyAuthenticationFilter extends BasicAuthenticationFilter {
+public class MyAuthenticationFilter extends RequestHeaderAuthenticationFilter {
 
+	@Autowired
 	private PublicKey publicKey;
-
+	@Autowired
 	private MyUserDetailsService myUserDetailsService;
 
-	public MyAuthenticationFilter(AuthenticationManager authenticationManager, PublicKey publicKey,
-			MyUserDetailsService myUserDetailsService) {
-		super(authenticationManager);
-
-		this.publicKey = publicKey;
-		this.myUserDetailsService = myUserDetailsService;
-
-	}
+	@Autowired
+	private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+
 		log.info("认证");
-		String header = request.getHeader("Authorization");
+		String header = ((HttpServletRequest) request).getHeader("Authorization");
 
 		if (header == null || !header.startsWith("Bearer ")) {
 			chain.doFilter(request, response);
 			return;
 		}
 
-		// parse the token.
-		String username = Jwts.parser()
-				// .setSigningKey(key)
-				.setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", "")).getBody().getSubject();
-		UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+		try {
+			// parse the token.
+			String username = Jwts.parser()
+					// .setSigningKey(key)
+					.setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", "")).getBody().getSubject();
+			UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
-		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-				userDetails.getPassword(), userDetails.getAuthorities());
-		// 初始化UserDetail
-		authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+					userDetails.getPassword(), userDetails.getAuthorities());
+			// 初始化UserDetail
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails((HttpServletRequest) request));
 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} catch (Exception e) {
+			myAuthenticationEntryPoint.commence((HttpServletRequest) request, (HttpServletResponse) response,
+					new BadCredentialsException(e.getMessage(), e));
+			return;
+		}
 
 		chain.doFilter(request, response);
+	}
+
+	@Override
+	@Autowired
+	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
+		super.setAuthenticationManager(authenticationManager);
 	}
 
 }

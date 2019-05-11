@@ -32,7 +32,7 @@ public class WebController {
 	private UserRespository userRespository;
 
 	/* curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U" \
+	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc2NDAwMzF9.hp5ayhStNG6TD9V00JzwEvlZW9gCaSUgk3SHmq3Fcv9aN3X6rH2b_Brv4WYkBzDNaud6jW0wQrlOu9tNdkiyJsacL6FY-6D4mRbB3cXcGqnH53x-a0IZM8AjIbTM_doF73CnuRFK_5ZP3gYha7nHEvtKJqqylU55ZeRaje-vDoo" \
 	   -X POST http://localhost:8080/api/github/qq275860560/web/pageUser \
 	   -d '{"pageNum":1,"pageSize":10}'
 	*/
@@ -134,7 +134,7 @@ public class WebController {
 	
 	
 	/* curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U" \
+	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc2NTMwMzR9.lgorjF8KkE3vgrAu4xhd8z1xUzXVCxCnFGOxLzi-pI38zF8sbWUYS1MK_DKLJeaM0eVJMsjGYtvP2H9lewgnE9b6ZgdCydltvHdSw40fqIYR84deL23XA3nODxkszZyvbzrJaSLPuS4a8fTBoERYsweslEN7Olt6abF_d2nvbfk" \
 	   -X POST http://localhost:8080/api/github/qq275860560/web/updateUser \
 	   -d '{}'
 	*/
