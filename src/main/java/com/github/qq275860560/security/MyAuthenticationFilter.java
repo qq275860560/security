@@ -54,7 +54,6 @@ public class MyAuthenticationFilter extends RequestHeaderAuthenticationFilter {
 		try {
 			// parse the token.
 			String username = Jwts.parser()
-					// .setSigningKey(key)
 					.setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", "")).getBody().getSubject();
 			UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
