@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 @Slf4j
 public class UserRespository {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	public Map<String, Object> findByUserName(String username) {
 		if (username.equals("username1")) {
 			return new HashMap<String, Object>() {
 				{
 					put("username", "username1");
-					put("password", new BCryptPasswordEncoder().encode("password1"));
+					put("password", passwordEncoder.encode("password1"));
 				}
 			};
 
@@ -30,7 +33,7 @@ public class UserRespository {
 			return new HashMap<String, Object>() {
 				{
 					put("username", "admin");
-					put("password", new BCryptPasswordEncoder().encode("admin"));
+					put("password", passwordEncoder.encode("admin"));
 				}
 			};
 		} else {

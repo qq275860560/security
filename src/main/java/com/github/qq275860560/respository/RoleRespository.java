@@ -1,11 +1,14 @@
 package com.github.qq275860560.respository;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.AntPathMatcher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,15 +22,15 @@ public class RoleRespository {
 
 	public Set<String> getRoleNameSetByUrI(String url) {
 
-		org.springframework.util.AntPathMatcher antPathMatcher = new org.springframework.util.AntPathMatcher();
-		List<String> list = Arrays.asList(url);// 遍历系统的所有url（包括正则表达式）
+		AntPathMatcher antPathMatcher = new AntPathMatcher();
+		List<String> list = Arrays.asList(url);// 加载系统所有url和其正则表达式
 
 		Set<String> set = new HashSet<>();
 		for (String tmp : list) {
 			if (antPathMatcher.match(tmp, url)) {
 				List<String> tmpList = listRoleNameByUrI(tmp);
 				if (tmpList == null || tmpList.isEmpty()) {// 至少有一个匹配url不需要权限时，立即放行
-					return null;
+					return Collections.EMPTY_SET;
 				} else {
 					set.addAll(tmpList);
 				}
@@ -36,7 +39,8 @@ public class RoleRespository {
 		return set;
 	}
 
-	public List<String> listRoleNameByUrI(String url) {
+	
+	private List<String> listRoleNameByUrI(String url) {
 
 		if (url.equals("/")) {
 			return Arrays.asList("ROLE_HOME");
