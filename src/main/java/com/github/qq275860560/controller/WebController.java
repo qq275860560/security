@@ -44,7 +44,7 @@ public class WebController {
 		return new HashMap<String, Object>() {
 			{
 				put("code", HttpStatus.OK);
-				put("msg", "搜索成功");
+				put("msg", "分页搜索成功");
 				put("data", data);
 			}
 		};
@@ -64,7 +64,7 @@ public class WebController {
 		return new HashMap<String, Object>() {
 			{
 				put("code", HttpStatus.OK);
-				put("msg", "搜索成功");
+				put("msg", "获取列表成功");
 				put("data", data);
 			}
 		};
@@ -112,7 +112,7 @@ public class WebController {
 	
 	
 	/* curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U" \
+	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc2ODU3MDR9.nTn12YMZ5vx2ej5rMOeDc4RmHfkqD0xATvrkwGX7cTpJXTcqvMtAsxvn00dmqBfaBO6uzyKZ85KW9Ze3UCcfQTd6gq3nI6nKYZK_sJAw4wrzhN2aiG1Xj5FLqqZ75XRpCD_WpS4mXOBhTDK0ob34QOxUCc7beJdBjVgjs8BhK9M" \
 	   -X POST http://localhost:8080/api/github/qq275860560/web/deleteUser \
 	   -d '{}'
 	*/
@@ -134,7 +134,7 @@ public class WebController {
 	
 	
 	/* curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc2NTMwMzR9.lgorjF8KkE3vgrAu4xhd8z1xUzXVCxCnFGOxLzi-pI38zF8sbWUYS1MK_DKLJeaM0eVJMsjGYtvP2H9lewgnE9b6ZgdCydltvHdSw40fqIYR84deL23XA3nODxkszZyvbzrJaSLPuS4a8fTBoERYsweslEN7Olt6abF_d2nvbfk" \
+	   -H "Authorization:Bearer   eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc2ODkwNTN9.nvE-OXuXhUZ20XXTjWxEU-ZxnOIVSA0GIl1nCqavGe0JzlzlIUNv8ysLF5ldVuODESHh-WEkOzIG6EYt-l4BcwF7ncI3EkijOQde-wWMuxtIeg0RXiFHIilmQAGL5qcx6oASBiRIxtzg9oGr7sTca2PNA8Q0m0cur__5fKkJhWE" \
 	   -X POST http://localhost:8080/api/github/qq275860560/web/updateUser \
 	   -d '{}'
 	*/

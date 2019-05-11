@@ -9,6 +9,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.SecurityMetadataSource;
 import org.springframework.security.access.intercept.InterceptorStatusToken;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author jiangyuanlin@163.com
  *
  */
+@Order(value=2)
 @Component
 @Slf4j
 public class MyFilterSecurityInterceptor extends FilterSecurityInterceptor {

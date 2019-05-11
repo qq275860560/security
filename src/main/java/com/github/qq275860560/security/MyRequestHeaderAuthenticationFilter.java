@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +28,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author jiangyuanlin@163.com
  *
  */
+@Order(value=1)
 @Component
 @Slf4j
-public class MyAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
 
 	@Autowired
 	private PublicKey publicKey;

@@ -31,16 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	@Autowired
 	private ObjectMapper objectMapper;
-/*
-	public MyUsernamePasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-			ObjectMapper objectMapper, MySimpleUrlAuthenticationSuccessHandler mySimpleUrlAuthenticationSuccessHandler,
-			MySimpleUrlAuthenticationFailureHandler mySimpleUrlAuthenticationFailureHandler) {
-		super.setAuthenticationManager(authenticationManager);
-		super.setAuthenticationSuccessHandler(mySimpleUrlAuthenticationSuccessHandler);
-		super.setAuthenticationFailureHandler(mySimpleUrlAuthenticationFailureHandler);
-		this.objectMapper = objectMapper;
-	}
-*/
 	/*
 	  curl -i -H "Content-Type:application/json;charset=UTF-8" \
 	  -X POST http://localhost:8080/login \

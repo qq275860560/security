@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class MySimpleUrlAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+public class MyAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	@Autowired
 	private ObjectMapper objectMapper;

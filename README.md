@@ -12,12 +12,12 @@ com.github.qq275860560.security.MyPublicKeyConfig
 ## 登录
 com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter
 ## 登录失败
-com.github.qq275860560.security.MySimpleUrlAuthenticationFailureHandler
+com.github.qq275860560.security.MyAuthenticationFailureHandler
 ## 登录成功
-com.github.qq275860560.security.MySimpleUrlAuthenticationSuccessHandler
+com.github.qq275860560.security.MyAuthenticationSuccessHandler
 
 ## 认证
-com.github.qq275860560.security.MyAuthenticationFilter
+com.github.qq275860560.security.MyRequestHeaderAuthenticationFilter
 ## 认证失败
 com.github.qq275860560.security.MyAuthenticationEntryPoint
 ## 授权

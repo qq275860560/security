@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.github.qq275860560.security.MyAccessDeniedHandler;
@@ -39,11 +38,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
  
  
  
-
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();// 如果自定义加密方式，需要实现passwordEncoder接口
-	}
+ 	@Autowired
+ 	private PasswordEncoder passwordEncoder;
+	 
 
 	@Bean
 	@Override
@@ -53,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder);
 	}
 
 	@Override
@@ -66,10 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 		//哪些url不需要授权
-		//http.authorizeRequests().antMatchers("*.html","*.css","*.woff","*.woff2","*.js","*.jpg","*.png","*.ico").permitAll();
+		http.authorizeRequests().antMatchers("*.html","*.css","*.woff","*.woff2","*.js","*.jpg","*.png","*.ico").permitAll();
 		//哪些url需要认证授权，为了开发方便，除了/login,所有POST请求需要认证授权
 		http.authorizeRequests().antMatchers("/api/*").authenticated();
-
+		
 		http.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler);
 		http.logout().addLogoutHandler(myLogoutHandler).logoutSuccessHandler(myLogoutSuccessHandler);
 
