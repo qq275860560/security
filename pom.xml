@@ -7,8 +7,8 @@
 	<version>20190510</version>
 	<packaging>jar</packaging>
 	<name>github-qq275860560-security</name>
-	<description>github-qq275860560-commo</description>	
-	<url>https://github.com/qq275860560/common</url> 
+	<description>github-qq275860560-security</description>	
+	<url>https://github.com/qq275860560/security</url> 
 	
 	<licenses>
      <license>
@@ -75,7 +75,6 @@
         <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
             <groupId>io.jsonwebtoken</groupId>
@@ -85,31 +84,25 @@
         <dependency>
 		   <groupId>org.projectlombok</groupId>
 		   <artifactId>lombok</artifactId>
-		    <optional>true</optional>
-		</dependency>
-		<dependency>
-		      <groupId>org.springframework.boot</groupId>
-		      <artifactId>spring-boot-devtools</artifactId>
-		      <optional>true</optional>
-	     </dependency>
+		</dependency>		
 	</dependencies>
     <build>
 	    <finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
-			        <!-- 如果没有该项配置，devtools不会起作用，即应用不会restart-->
-			        <fork>true</fork>
-			    </configuration>
-				<dependencies>
-	                <dependency>
-	              		<groupId>org.springframework</groupId>
-	             	 	<artifactId>springloaded</artifactId>
-	             	 	<version>1.2.8.RELEASE</version>
-	               </dependency>
-      			 </dependencies>
+					<excludes>
+						<exclude>application.properties</exclude>						 
+						<exclude>jwt.jks</exclude>
+						<exclude>static/index.html</exclude>
+						<exclude>com/github/qq275860560/Application.class</exclude>
+						<exclude>com/github/qq275860560/service/impl/*</exclude>						
+						<exclude>com/github/qq275860560/respository/*</exclude>	
+						<exclude>com/github/qq275860560/controller/*</exclude>								
+					</excludes>
+				</configuration>				
 			</plugin>
 			 <!-- 源码打包插件 -->   
              <plugin>
