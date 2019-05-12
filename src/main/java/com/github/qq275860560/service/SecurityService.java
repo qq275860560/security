@@ -15,7 +15,7 @@ public abstract class SecurityService {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 	/**用户密码加密策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
-	 * @param rawPassword
+	 * @param rawPassword 用户登录时输入的明文密码
 	 * @return
 	 */
 	public String encode(CharSequence rawPassword) {
@@ -23,8 +23,8 @@ public abstract class SecurityService {
 	}
 
 	/**用户密码核对策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
-	 * @param rawPassword
-	 * @param encodedPassword
+	 * @param rawPassword 用户登录时输入的明文密码
+	 * @param encodedPassword 数据库中加密后的密码
 	 * @return
 	 */
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
@@ -35,7 +35,7 @@ public abstract class SecurityService {
 	  * 根据登录账号查询密码，此密码非明文密码，而是PasswordEncoder对明文加密后的密码，因为
 	 * spring security框架中数据库默认保存的是PasswordEncoder对明文加密后的密码
 	 * 
-	 * @param username 登录账号名称
+	 * @param username 登录用户名称
 	 * @return 返回字符串
 	 */
 	public abstract String getPasswordByUserName(String username);
@@ -59,7 +59,7 @@ public abstract class SecurityService {
 	 */
 	public abstract Set<String> getRoleNameSetByUsername(String username);
 
-	/**设置token的过期时间(单位为秒)
+	/**token的过期时间(单位为秒)
 	 * @return
 	 */
 	public long getExpirationSeconds() {
@@ -67,23 +67,23 @@ public abstract class SecurityService {
 		return expirationSeconds;
 	}
 
-	/**私钥字符串(百度搜索公钥私钥在线生成，生成后的私钥可作为此函数的返回值)
+	/**私钥字符串(参考https://github.com/qq275860560/common/blob/master/src/main/java/com/github/qq275860560/common/util/RsaUtil.java)
 	 * @return
 	 * @throws Exception
 	 * @throws CertificateException
 	 * @throws UnrecoverableKeyException
 	 */
-	public String getPrivateKeyString() throws Exception, CertificateException, UnrecoverableKeyException {
-		String privateKey = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCL/rwpW1aOL3C3fI1kly12CrS6Uaz8His8WgtgucCpkFes5LqL5SLYICXmEbXiY+ahTIduWmBNrDaje3AwPVl0pEsbBJ7BfAfz35PUPShYMJOymfYJ1GLsZL9X3bdv32afFS4mNAh8h8saYLUCO0H/TGL2hrcqbuMsXOHQ+Htw9xuuw9HF6K1XAhckR0UhP0bJ2CaVMoy7L9gtOxjrVJ+neyAdyPISgMYgleYABdlzhahlMMeUQKWPjySAHPGmdDZjU+4DwZ+VcsrADLYgwsEsYylHNJ+ISYxBBlJsDUU8y64OmDqKomlqcv/VAlZKMKvP/UCC3n7dJhMFjQpkqDZVAgMBAAECggEAWvbynIzU+R6qRw+PcEUrLQBX3pkjpc6UmWqI6hjIr2UzEwysiiohMf3xokTvwmLXgQeRGItw+AdmmWOjyjSS48+9XZjq7x4ArN4h2E7E4EjwL6UK0ehHPwNXsWhHwVGQBN5mVjyJJyG1PzaHZyPKBnFD/JwceF4FDtZrhLVwwD1Xo0Y35CWlani7LT8O7Q4SH2UOT8koARcBotFxs5oFvK2bvnsU7FDFTj7RFOKc3MFOYbxZ8q6/9N1i4u3H9q4D9dKSv3+z33Pz721b66CN5M6Q199MTBz9Mh0gFY6bNHZO8121pm3xW1rL2kChC/0SKgJFlSL1U3fsP1ydzJnkIQKBgQDdPutS8Ykw/N9OO+6vqKGxs3VYQTAKSJ7YVFPmgkjbIWwe/rwkmCo5L0tVEnykbqYXjcw8BxsOvAlO3luBfsOi3anMuTA4Dr0j9ll8P7f8jYjb0mfjpB34lne5yINQlMfWYFRuiNRXm6amsn0AWwHOazq7CFh82K8+/DCupSVCowKBgQCh/G9YPqApZAGRCRWEU0PkvrePWFdlMYCVT1aNtX3iflf1jelvBsi2yh5fXqEAsox9cQi2jW5i6XghIuG9RQnq4mWkVS6Neg/m7IMEP86L1p0wtLb4hCsi2FPoy0WQBuTNSFPOSmdwo8corLa1IYxF24X5e6BZH6dCgsp185kqpwKBgQCC7VwXToZwbgS76G2cl/9wCJI1swX53/XYcTbhX1I8EzBHu1mdkkrSYnGDG5iVOkGiCLDHCTFy68XaXW3rWRfvBpwYYbLuSZKWeI+GHrMDisJly8LdDN8LoAej8sv64MDN1V3Bt8lpOtxJI7Ejh7eu7vfnfM3Yu+YhMN6iS2qcXwKBgGYY8KkjF9newaoDmr9DqAhWOOYtnTAX6l6xmfFJkmWekpwf7SDgmsOzUz9zKnGBGFG8W+yL6iaH1wKztKqSCDU2qy/PzL65T6qSKeYUvX+gLoVTcfvjejjFNuYEsPydi7rjuobMmLQDVnUJn0M9OOeS/LeJt0BVVhvyyd9cQY8DAoGBALWEeojr3YYNC4f+HCTn80FSFEBmNxEPclUteYM0N0O3osBI/MxKTQkAQ4c74FEOZrpnZc7Kpnd1levXJW384qqRa39BuB/xpyXoHMCdoYZbDN4kqfi0JHoJTJ6E0ad5/2baRchVErEQRRAEAxD+77YOhoGdcwGIMCLBW4SU2Qut";
+	public String getPrivateKeyBase64EncodeString() throws Exception, CertificateException, UnrecoverableKeyException {
+		String privateKey = "MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAwMyeTv8ef7XSiS9v+vx/n4CP0xQMYlXt9Sw4Q1ic1pQKpvCWI5bGhnYJk+seHpf0mv1AyPWoRQCeGoiE8tdymwIDAQABAkBZnUJgOZj1h4/qkBAeu0qe2uT/Gax/8K0AbqNgOkn8OlilY6HzkyuonQee29KHXoV7a1nxW3HePTnahAKWB/NhAiEA7Edny/2XhXG7s0rPnSBdLfbfpj4XYxhQ29grAAN09qkCIQDQ5C3qTvcTQ8AZpNUZ3fdvx1rKHpSf9M7i2g6dNItdowIhAJZY4X12QkJRmqR9yBoti91BqBJ6lBskT990b/g0OurxAiAXOFYWRqLWZGCVOSprDq5zoXBpKU8SHM9mjiCzvuSDCwIhAMFVhazoOAP2DQHmo+DRJItHDYOQKSk2Q4tR9A9519nx";
 		return privateKey;
 	}
 
-	/**公钥字符串(百度搜索公钥私钥在线生成，生成后的公钥可作为此函数的返回值)
+	/**公钥字符串(参考https://github.com/qq275860560/common/blob/master/src/main/java/com/github/qq275860560/common/util/RsaUtil.java)
 	 * @return
 	 * @throws Exception
 	 */
-	public String getPublicKeyString() throws Exception {
-		String publicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi/68KVtWji9wt3yNZJctdgq0ulGs/B4rPFoLYLnAqZBXrOS6i+Ui2CAl5hG14mPmoUyHblpgTaw2o3twMD1ZdKRLGwSewXwH89+T1D0oWDCTspn2CdRi7GS/V923b99mnxUuJjQIfIfLGmC1AjtB/0xi9oa3Km7jLFzh0Ph7cPcbrsPRxeitVwIXJEdFIT9GydgmlTKMuy/YLTsY61Sfp3sgHcjyEoDGIJXmAAXZc4WoZTDHlEClj48kgBzxpnQ2Y1PuA8GflXLKwAy2IMLBLGMpRzSfiEmMQQZSbA1FPMuuDpg6iqJpanL/1QJWSjCrz/1Agt5+3SYTBY0KZKg2VQIDAQAB";
+	public String getPublicKeyBase64EncodeString() throws Exception {
+		String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMDMnk7/Hn+10okvb/r8f5+Aj9MUDGJV7fUsOENYnNaUCqbwliOWxoZ2CZPrHh6X9Jr9QMj1qEUAnhqIhPLXcpsCAwEAAQ==";
 		return publicKey;
 	}
 }

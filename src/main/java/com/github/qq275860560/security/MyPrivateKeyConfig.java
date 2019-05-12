@@ -24,7 +24,7 @@ public class MyPrivateKeyConfig {
 	private SecurityService securityService;
 
 	@Bean
-	public PrivateKey privateKey() throws Exception {
+	public PrivateKey getPrivateKey() throws Exception {
 		log.trace("私钥配置");
 		/*
 		 * String jwtJksFileName = "jwt.jks"; String jwtJksPassword = "123456"; String
@@ -34,8 +34,8 @@ public class MyPrivateKeyConfig {
 		 * keyStore.load(inputStream, jwtJksPassword.toCharArray()); return (PrivateKey)
 		 * keyStore.getKey(jwtJksAlias, jwtJksPassword.toCharArray());
 		 */
-		String privateKey = securityService.getPrivateKeyString();
-		byte[] keyBytes = Base64Utils.decode(privateKey.getBytes());
+		String privateKeyBase64EncodeString = securityService.getPrivateKeyBase64EncodeString();
+		byte[] keyBytes = Base64Utils.decode(privateKeyBase64EncodeString.getBytes());
 		PKCS8EncodedKeySpec keySpec_privateKey = new PKCS8EncodedKeySpec(keyBytes);
 		KeyFactory keyFactory_privateKey = KeyFactory.getInstance("RSA");
 		return keyFactory_privateKey.generatePrivate(keySpec_privateKey);

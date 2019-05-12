@@ -25,7 +25,7 @@ public class MyPublicKeyConfig {
 	private SecurityService securityService;
 
 	@Bean
-	public PublicKey publicKey() throws Exception {
+	public PublicKey getPublicKey() throws Exception {
 		log.trace("公钥配置");
 		/*
 		 * String jwtJksFileName = "jwt.jks"; String jwtJksPassword = "123456"; String
@@ -35,8 +35,8 @@ public class MyPublicKeyConfig {
 		 * keyStore.load(inputStream, jwtJksPassword.toCharArray()); return
 		 * keyStore.getCertificate(jwtJksAlias).getPublicKey();
 		 */
-		String publicKey = securityService.getPublicKeyString();
-		byte[] keyBytes = Base64Utils.decode(publicKey.getBytes());
+		String publicKeyBase64EncodeString = securityService.getPublicKeyBase64EncodeString();
+		byte[] keyBytes = Base64Utils.decode(publicKeyBase64EncodeString.getBytes());
 		X509EncodedKeySpec keySpec_publicKey = new X509EncodedKeySpec(keyBytes);
 		KeyFactory keyFactory_publicKey = KeyFactory.getInstance("RSA");
 		return keyFactory_publicKey.generatePublic(keySpec_publicKey);
