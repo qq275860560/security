@@ -25,7 +25,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
 			throws AccessDeniedException, InsufficientAuthenticationException {
-		log.info("授权:决策");
+		log.trace("授权:决策");
 		Collection<? extends GrantedAuthority> grantedAuthorities = authentication.getAuthorities();
 
 		for (Iterator<ConfigAttribute> iterator = configAttributes.iterator(); iterator.hasNext();) {// 遍历url所对应的角色/权限

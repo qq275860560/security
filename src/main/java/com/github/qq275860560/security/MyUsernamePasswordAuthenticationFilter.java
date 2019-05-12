@@ -39,7 +39,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		log.info("登录");
+		log.trace("登录");
 		Map<String, Object> map = null;
 		try {
 			map = objectMapper.readValue(request.getInputStream(), Map.class);

@@ -49,7 +49,7 @@ public class MyFilterSecurityInterceptor extends FilterSecurityInterceptor {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		log.info("授权=" + ((HttpServletRequest) request).getRequestURI());
+		log.trace("授权=" + ((HttpServletRequest) request).getRequestURI());
 		FilterInvocation filterInvocation = new FilterInvocation(request, response, chain);
 
 		InterceptorStatusToken interceptorStatusToken = super.beforeInvocation(filterInvocation);

@@ -1,17 +1,15 @@
 package com.github.qq275860560.security;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.security.KeyFactory;
 import java.security.PrivateKey;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
+import java.security.spec.PKCS8EncodedKeySpec;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Base64Utils;
+
+import com.github.qq275860560.service.SecurityService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,24 +20,25 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @Slf4j
 public class MyPrivateKeyConfig {
-
-	@Value("${jwtJksFileName}")
-	private String jwtJksFileName;
-	@Value("${jwtJksPassword}")
-	private String jwtJksPassword;
-	@Value("${jwtJksAlias}")
-	private String jwtJksAlias;
+	@Autowired
+	private SecurityService securityService;
 
 	@Bean
-	public PrivateKey privateKey() throws KeyStoreException, IOException, NoSuchAlgorithmException,
-			CertificateException, UnrecoverableKeyException {
-		log.info("私钥配置");
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
-
-		KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(inputStream, jwtJksPassword.toCharArray());
-
-		return (PrivateKey) keyStore.getKey(jwtJksAlias, jwtJksPassword.toCharArray());
+	public PrivateKey privateKey() throws Exception {
+		log.trace("私钥配置");
+		/*
+		 * String jwtJksFileName = "jwt.jks"; String jwtJksPassword = "123456"; String
+		 * jwtJksAlias = "jwt"; InputStream inputStream =
+		 * Thread.currentThread().getContextClassLoader().getResourceAsStream(
+		 * jwtJksFileName); KeyStore keyStore = KeyStore.getInstance("JKS");
+		 * keyStore.load(inputStream, jwtJksPassword.toCharArray()); return (PrivateKey)
+		 * keyStore.getKey(jwtJksAlias, jwtJksPassword.toCharArray());
+		 */
+		String privateKey = securityService.getPrivateKeyString();
+		byte[] keyBytes = Base64Utils.decode(privateKey.getBytes());
+		PKCS8EncodedKeySpec keySpec_privateKey = new PKCS8EncodedKeySpec(keyBytes);
+		KeyFactory keyFactory_privateKey = KeyFactory.getInstance("RSA");
+		return keyFactory_privateKey.generatePrivate(keySpec_privateKey);
 
 	}
 

@@ -1,16 +1,15 @@
 package com.github.qq275860560.security;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
+import java.security.KeyFactory;
 import java.security.PublicKey;
-import java.security.cert.CertificateException;
+import java.security.spec.X509EncodedKeySpec;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.util.Base64Utils;
+
+import com.github.qq275860560.service.SecurityService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,22 +21,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyPublicKeyConfig {
 
-	@Value("${jwtJksFileName}")
-	private String jwtJksFileName;
-	@Value("${jwtJksPassword}")
-	private String jwtJksPassword;
-	@Value("${jwtJksAlias}")
-	private String jwtJksAlias;
+	@Autowired
+	private SecurityService securityService;
 
 	@Bean
-	public PublicKey publicKey() throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
-		log.info("公钥配置");
-		InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(jwtJksFileName);
-
-		KeyStore keyStore = KeyStore.getInstance("JKS");
-		keyStore.load(inputStream, jwtJksPassword.toCharArray());
-
-		return keyStore.getCertificate(jwtJksAlias).getPublicKey();
+	public PublicKey publicKey() throws Exception {
+		log.trace("公钥配置");
+		/*
+		 * String jwtJksFileName = "jwt.jks"; String jwtJksPassword = "123456"; String
+		 * jwtJksAlias = "jwt"; InputStream inputStream =
+		 * Thread.currentThread().getContextClassLoader().getResourceAsStream(
+		 * jwtJksFileName); KeyStore keyStore = KeyStore.getInstance("JKS");
+		 * keyStore.load(inputStream, jwtJksPassword.toCharArray()); return
+		 * keyStore.getCertificate(jwtJksAlias).getPublicKey();
+		 */
+		String publicKey = securityService.getPublicKeyString();
+		byte[] keyBytes = Base64Utils.decode(publicKey.getBytes());
+		X509EncodedKeySpec keySpec_publicKey = new X509EncodedKeySpec(keyBytes);
+		KeyFactory keyFactory_publicKey = KeyFactory.getInstance("RSA");
+		return keyFactory_publicKey.generatePublic(keySpec_publicKey);
 
 	}
 

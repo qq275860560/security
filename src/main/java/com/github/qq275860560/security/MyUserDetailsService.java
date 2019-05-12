@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.info("授权:获取用户对应的角色权限");
+		log.trace("授权:获取用户对应的角色权限");
 		String password = securityService.getPasswordByUserName(username);
 		if (StringUtils.isBlank(password)) {
 			log.error(username + "账号不存在");

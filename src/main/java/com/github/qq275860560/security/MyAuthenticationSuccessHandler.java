@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.qq275860560.service.SecurityService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,8 +32,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-	@Value("${expirationSeconds}")
-	private long expirationSeconds;
+	@Autowired
+	private SecurityService securityService;
+	
+ 
 
 	@Autowired
 	private PrivateKey privateKey;
@@ -44,9 +47,9 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
-		log.info("登录成功");
+		log.trace("登录成功");
 		String token = Jwts.builder().setSubject(authentication.getName())
-				.setExpiration(new Date(System.currentTimeMillis() + expirationSeconds * 1000))
+				.setExpiration(new Date(System.currentTimeMillis() + securityService.getExpirationSeconds() * 1000))
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
 		response.addHeader("Authorization", "Bearer " + token);
 

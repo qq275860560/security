@@ -39,7 +39,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/pageUser", method =RequestMethod.POST)
 	public Map<String, Object> pageUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		Map<String, Object> data = userRespository.pageUser();
 		return new HashMap<String, Object>() {
 			{
@@ -59,7 +59,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/listUser", method =RequestMethod.POST)
 	public Map<String, Object> listUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		List<Map<String, Object>> data = userRespository.listUser();
 		return new HashMap<String, Object>() {
 			{
@@ -78,7 +78,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/getUser", method =RequestMethod.POST)
 	public Map<String, Object> getUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		Map<String, Object> data=userRespository.getUser("");
 		return new HashMap<String, Object>() {
 			{
@@ -98,7 +98,7 @@ public class WebController {
 	@RequestMapping(value = "/api/github/qq275860560/web/saveUser", method =RequestMethod.POST)
 	public Map<String, Object> saveUser(@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		userRespository.saveUser(requestMap);
 		return new HashMap<String, Object>() {
 			{
@@ -120,7 +120,7 @@ public class WebController {
 	public Map<String, Object> deleteUser(
 			@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		userRespository.deleteUser("");
 		return new HashMap<String, Object>() {
 			{
@@ -142,7 +142,7 @@ public class WebController {
 	public Map<String, Object> updateUser(
 			@RequestBody Map<String, Object> requestMap)  throws Exception{
 		String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();
-		log.info("当前登录用户=" + username);
+		log.trace("当前登录用户=" + username);
 		userRespository.updateUser(requestMap);
 		return new HashMap<String, Object>() {
 			{
