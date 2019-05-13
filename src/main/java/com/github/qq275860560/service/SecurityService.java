@@ -63,7 +63,7 @@ public abstract class SecurityService {
 	 * @return
 	 */
 	public long getExpirationSeconds() {
-		long expirationSeconds = 86400L;
+		long expirationSeconds = 10*365*24*3600L;
 		return expirationSeconds;
 	}
 
