@@ -34,11 +34,11 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
 		log.trace("授权失败", accessDeniedException);
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
 			{
-				put("code", HttpStatus.UNAUTHORIZED.value());
+				put("code", HttpStatus.FORBIDDEN.value());
 				put("msg", "授权失败");
 				put("data", accessDeniedException.getMessage());
 			}

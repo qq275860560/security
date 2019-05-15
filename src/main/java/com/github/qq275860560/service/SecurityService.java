@@ -2,6 +2,7 @@ package com.github.qq275860560.service;
 
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,10 +17,10 @@ public abstract class SecurityService {
 
 	/**用户密码加密策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
 	 * @param rawPassword 用户登录时输入的明文密码
-	 * @return
+	 * @return 数据库中的密码
 	 */
 	public String encode(CharSequence rawPassword) {
-		return passwordEncoder.encode(rawPassword);// spring推荐使用该方法加密
+		return passwordEncoder.encode(rawPassword);// spring推荐使用该方式加密
 	}
 
 	/**用户密码核对策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
@@ -38,7 +39,9 @@ public abstract class SecurityService {
 	 * @param username 登录用户名称
 	 * @return 返回字符串
 	 */
-	public abstract String getPasswordByUserName(String username);
+	public String getPasswordByUserName(String username) {
+		return passwordEncoder.encode("123456");// 数据库查出来的密码，默认每个用户都是123456的加密
+	}
 
 	/**
 	 *   根据请求路径查询对应的角色名称列表，
@@ -48,7 +51,11 @@ public abstract class SecurityService {
 	 * @param url 请求路径（ip端口之后的路径）
 	 * @return
 	 */
-	public abstract Set<String> getRoleNameSetByUrI(String url);
+	public Set<String> getRoleNameSetByUrI(String url){
+		return new HashSet<String>() {{
+			add("ROLE_ANONYMOUS");// 数据库查出来的url角色权限，默认只要具有ROLE_ANONYMOUS角色的用户即可访问
+		}};
+	}
 
 	/**
 	 *   根据登录用户查询对应的角色名称列表，
@@ -57,7 +64,11 @@ public abstract class SecurityService {
 	 * @param username 登录用户名称
 	 * @return
 	 */
-	public abstract Set<String> getRoleNameSetByUsername(String username);
+	public Set<String> getRoleNameSetByUsername(String username){
+		return new HashSet<String>() {{
+			add("ROLE_ANONYMOUS");// 数据库查出来的用户角色权限，默认此用户可以访问ROLE_ANONYMOUS角色的url
+		}};
+	}
 
 	/**token的过期时间(单位为秒)
 	 * @return
@@ -74,7 +85,7 @@ public abstract class SecurityService {
 	 * @throws UnrecoverableKeyException
 	 */
 	public String getPrivateKeyBase64EncodeString() throws Exception, CertificateException, UnrecoverableKeyException {
-		String privateKey = "MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAwMyeTv8ef7XSiS9v+vx/n4CP0xQMYlXt9Sw4Q1ic1pQKpvCWI5bGhnYJk+seHpf0mv1AyPWoRQCeGoiE8tdymwIDAQABAkBZnUJgOZj1h4/qkBAeu0qe2uT/Gax/8K0AbqNgOkn8OlilY6HzkyuonQee29KHXoV7a1nxW3HePTnahAKWB/NhAiEA7Edny/2XhXG7s0rPnSBdLfbfpj4XYxhQ29grAAN09qkCIQDQ5C3qTvcTQ8AZpNUZ3fdvx1rKHpSf9M7i2g6dNItdowIhAJZY4X12QkJRmqR9yBoti91BqBJ6lBskT990b/g0OurxAiAXOFYWRqLWZGCVOSprDq5zoXBpKU8SHM9mjiCzvuSDCwIhAMFVhazoOAP2DQHmo+DRJItHDYOQKSk2Q4tR9A9519nx";
+		String privateKey = "MIIBVgIBADANBgkqhkiG9w0BAQEFAASCAUAwggE8AgEAAkEAhoMJ703MADFT4Lf5MUQDQiG4qz7wqArKvzMhPdOmK8FM2GXKY57RTn4vXIrudYC7kl6Fdfuyedvv1wXYiMkqDwIDAQABAkBq2uIjhmvOo2D8nWmKJ3tnJ56p+x/2fkw9w4JeuSnCi2vvfcUN4Sb2FRR5Ckgw+4DExvC8W5Fjr5EGg6MedjvxAiEA2O+6sjn3zvljzREYHc8Pc3dlmaSW2zmCo/nwyCO9EUUCIQCeu7n4oBtnv7K++8461grqlB1Afu5Es89k/XvES6DhQwIhANCO+PArpsBHJtmZm5Pc4z/hA76Ia7frPFulCQWAxl35AiEAlH9tQPKQEORfFZq+2X4q4j/EifT1dWJ+cK1Pn1ldXb8CIQDUD6VYAC/nR+nIYUiU12kn2uBKe1bg2fwnUOJotFc6Kw==";
 		return privateKey;
 	}
 
@@ -83,7 +94,7 @@ public abstract class SecurityService {
 	 * @throws Exception
 	 */
 	public String getPublicKeyBase64EncodeString() throws Exception {
-		String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAMDMnk7/Hn+10okvb/r8f5+Aj9MUDGJV7fUsOENYnNaUCqbwliOWxoZ2CZPrHh6X9Jr9QMj1qEUAnhqIhPLXcpsCAwEAAQ==";
+		String publicKey = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAIaDCe9NzAAxU+C3+TFEA0IhuKs+8KgKyr8zIT3TpivBTNhlymOe0U5+L1yK7nWAu5JehXX7snnb79cF2IjJKg8CAwEAAQ==";
 		return publicKey;
 	}
 }

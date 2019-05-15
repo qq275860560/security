@@ -4,7 +4,7 @@
 
     <groupId>com.github.qq275860560</groupId>
 	<artifactId>github-qq275860560-security</artifactId>
-	<version>20190514</version>
+	<version>20190515</version>
 	<packaging>jar</packaging>
 	<name>github-qq275860560-security</name>
 	<description>github-qq275860560-security</description>	
@@ -90,18 +90,7 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>application.properties</exclude>						 
-						<exclude>jwt.jks</exclude>
-						<exclude>static/index.html</exclude>
-						<exclude>com/github/qq275860560/Application.class</exclude>
-						<exclude>com/github/qq275860560/service/impl/*</exclude>						
-						<exclude>com/github/qq275860560/respository/*</exclude>	
-						<exclude>com/github/qq275860560/controller/*</exclude>								
-					</excludes>
-				</configuration>				
+				<artifactId>maven-jar-plugin</artifactId>								
 			</plugin>
 			 <!-- 源码打包插件 -->   
              <plugin>
@@ -135,7 +124,7 @@
 			 <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.6</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -143,11 +132,14 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                             <passphrase>123456</passphrase> 
+                        </configuration>
                     </execution>
                     <!-- -Dgpg.passphrase='秘钥密码'或者-Darguments='gpg.passphrase=秘钥密码' -->
                 </executions>
             </plugin>
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
                 <version>1.6.8</version>
@@ -157,7 +149,7 @@
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-            </plugin> -->          
+            </plugin>         
             <!-- 拷贝依赖包插件 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
