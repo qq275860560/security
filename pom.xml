@@ -131,10 +131,7 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                             <passphrase>123456</passphrase> 
-                        </configuration>
+                        </goals>                   
                     </execution>
                     <!-- -Dgpg.passphrase='秘钥密码'或者-Darguments='gpg.passphrase=秘钥密码' -->
                 </executions>
