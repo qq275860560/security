@@ -5,6 +5,7 @@ import java.security.cert.CertificateException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -15,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public abstract class SecurityService {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	/**用户密码加密策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
+	/**用户密码加密策略(如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法)
 	 * @param rawPassword 用户登录时输入的明文密码
 	 * @return 数据库中的密码
 	 */
@@ -23,7 +24,7 @@ public abstract class SecurityService {
 		return passwordEncoder.encode(rawPassword);// spring推荐使用该方式加密
 	}
 
-	/**用户密码核对策略(如果使用spring默认的springBCryptPasswordEncoder,不需要重写该方法)
+	/**用户密码核对策略(如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法)
 	 * @param rawPassword 用户登录时输入的明文密码
 	 * @param encodedPassword 数据库中加密后的密码
 	 * @return
@@ -35,7 +36,10 @@ public abstract class SecurityService {
 	/**根据登录账号查询密码
 	  * 根据登录账号查询密码，此密码非明文密码，而是PasswordEncoder对明文加密后的密码，因为
 	 * spring security框架中数据库默认保存的是PasswordEncoder对明文加密后的密码
-	 * 
+	 *   用户发送的密码加密后会跟这个函数返回的密码相匹配，如果成功，则认证成功，并保存到session中，程序任何地方可以通过以下代码获取当前的username
+	 * String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();  
+	 *  再根据用户名称查询数据库获得其他个人信息
+	 *    
 	 * @param username 登录用户名称
 	 * @return 返回字符串
 	 */
