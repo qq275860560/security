@@ -26,10 +26,10 @@ public class MyLogoutHandler implements LogoutHandler {
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		// 可加入清除redis逻辑，实现服务端退出
 		try {
-			log.trace("退出");	
+			log.debug("退出");	
 		
 		}catch (Exception e) {
-			log.trace("退出失败",e);	 
+			log.debug("退出失败",e);	 
 		}
 		 
 	}

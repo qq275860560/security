@@ -1,24 +1,12 @@
 package com.github.qq275860560.security;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,32 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-	@Autowired
-	private ObjectMapper objectMapper;
-	/*
-	  curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	  -X POST http://localhost:8080/login \
-	  -d '{"username":"username1","password":"password1"}'
-	 */
-	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-			throws AuthenticationException {
-		log.trace("登录");
-		Map<String, Object> map = null;
-		try {
-			map = objectMapper.readValue(request.getInputStream(), Map.class);
-		} catch (Exception e) {
-			log.error("", e);
-			throw new UsernameNotFoundException(e.getMessage());
-		}
-		// 可加入图片验证码/短信验证码逻辑
-		//
-		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-				map.get("username"), (String) map.get("password"), new ArrayList<>());
-		usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-		return this.getAuthenticationManager().authenticate(usernamePasswordAuthenticationToken);
+	 // curl -i -X POST "http://localhost:8080/login?username=username1&password=password1"
+	public MyUsernamePasswordAuthenticationFilter() {
+    	super();
+		super.setPostOnly(false);
+		super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login"));
 	}
-	
+
 	@Override
 	@Autowired
 	public void setAuthenticationSuccessHandler(

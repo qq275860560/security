@@ -32,7 +32,7 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException, ServletException {
-		log.trace("退出成功");		
+		log.debug("退出成功");		
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
 			{

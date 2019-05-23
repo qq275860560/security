@@ -45,13 +45,14 @@ public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthentica
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		log.trace("认证");
+		log.debug("认证");
 		String header = ((HttpServletRequest) request).getHeader("Authorization");
 
 		if (header == null || !header.startsWith("Bearer ")) {
 			chain.doFilter(request, response);
 			return;
 		}
+		// 实现url带access_token的功能
 
 		try {
 			// parse the token.

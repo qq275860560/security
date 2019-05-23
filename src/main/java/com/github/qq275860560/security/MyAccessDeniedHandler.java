@@ -33,7 +33,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
-		log.trace("授权失败", accessDeniedException);
+		log.debug("授权失败", accessDeniedException);
 		response.setStatus(HttpStatus.FORBIDDEN.value());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {

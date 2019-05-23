@@ -26,7 +26,7 @@ public class MyPublicKeyConfig {
 
 	@Bean
 	public PublicKey getPublicKey() throws Exception {
-		log.trace("公钥配置");
+		log.debug("公钥配置");
 		/*
 		 * String jwtJksFileName = "jwt.jks"; String jwtJksPassword = "123456"; String
 		 * jwtJksAlias = "jwt"; InputStream inputStream =

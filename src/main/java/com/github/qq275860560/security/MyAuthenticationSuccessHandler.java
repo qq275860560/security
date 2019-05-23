@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -47,7 +46,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 
-		log.trace("登录成功");
+		log.debug("登录成功");
 		String token = Jwts.builder().setSubject(authentication.getName())
 				.setExpiration(new Date(System.currentTimeMillis() + securityService.getExpirationSeconds() * 1000))
 				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
@@ -58,7 +57,13 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			{
 				put("code", HttpStatus.OK.value());
 				put("msg", "登录成功");
-				put("data", null);
+				put("data", new HashMap<String,Object>() {{
+					put("access_token", token);
+					put("token_type", "bearer");
+					put("refresh_token", "");
+					put("expires_in", securityService.getExpirationSeconds());
+					put("scope", "");//加载所有权限.暂略
+				}});
 			}
 		}));
 	}

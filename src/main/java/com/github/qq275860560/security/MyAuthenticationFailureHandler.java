@@ -33,7 +33,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
 
-		log.trace("登录失败");
+		log.debug("登录失败");
 		response.setStatus(HttpStatus.BAD_REQUEST.value());
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
