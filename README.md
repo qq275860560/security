@@ -18,16 +18,13 @@ com.github.qq275860560.security.MyAuthenticationSuccessHandler
 
 ## 认证
 com.github.qq275860560.security.MyRequestHeaderAuthenticationFilter
+## 认证:获取用户对应的角色权限
+com.github.qq275860560.security.MyUserDetailsService
 ## 认证失败
 com.github.qq275860560.security.MyAuthenticationEntryPoint
-## 授权
-com.github.qq275860560.security.MyFilterSecurityInterceptor
-## 授权:获取用户对应的角色权限
-com.github.qq275860560.security.MyUserDetailsService
+
 ## 授权:获取url对应的角色权限
 com.github.qq275860560.security.MyFilterInvocationSecurityMetadataSource
-## 授权:决策
-com.github.qq275860560.security.MyAccessDecisionManager
 ## 授权失败
 com.github.qq275860560.security.MyAccessDeniedHandler
 

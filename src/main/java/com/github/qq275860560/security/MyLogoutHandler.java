@@ -17,22 +17,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyLogoutHandler implements LogoutHandler {
 
-	/* curl -i -H "Content-Type:application/json;charset=UTF-8" \
-	   -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U" \
-	   -X POST http://localhost:8080/logout \
-	   -d '{}'
-	*/
+	/*
+	 * curl -i -X POST http://localhost:8080/logout -H "Authorization:Bearer eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTEiLCJleHAiOjE1NTc1Mzk4MTN9.FEsVLyZv_RzNnd14z1Qawq_EZ5AOQ27_4BceNuX6eTYqWRNS9IW4A6U4PcXnbG6rVwPgWm9VNq7AxcJpyaOTAqSxTZrfv7CCAxE-G-IuydNeAzUaXfsdPMjRcwZlBjt_V3DdMUR94HGpwPEEnIeT_jBsAe5ic7pDWAzzTY0W36U"
+ 	 */
 	@Override
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		// 可加入清除redis逻辑，实现服务端退出
 		try {
-			log.debug("退出");	
-		
-		}catch (Exception e) {
-			log.debug("退出失败",e);	 
+			log.debug("退出");
+
+		} catch (Exception e) {
+			log.debug("退出失败", e);
 		}
-		 
+
 	}
 
-	 
 }

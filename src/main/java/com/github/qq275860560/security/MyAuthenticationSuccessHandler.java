@@ -33,8 +33,6 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
 	@Autowired
 	private SecurityService securityService;
-	
- 
 
 	@Autowired
 	private PrivateKey privateKey;
@@ -57,13 +55,15 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			{
 				put("code", HttpStatus.OK.value());
 				put("msg", "登录成功");
-				put("data", new HashMap<String,Object>() {{
-					put("access_token", token);
-					put("token_type", "bearer");
-					put("refresh_token", "");
-					put("expires_in", securityService.getExpirationSeconds());
-					put("scope", "");//加载所有权限.暂略
-				}});
+				put("data", new HashMap<String, Object>() {
+					{
+						put("access_token", token);
+						put("token_type", "bearer");
+						put("refresh_token", "");
+						put("expires_in", securityService.getExpirationSeconds());
+						put("scope", "");// 加载所有权限.暂略
+					}
+				});
 			}
 		}));
 	}

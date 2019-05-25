@@ -24,13 +24,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyUserDetailsService implements UserDetailsService {
 
-
 	@Autowired
 	private SecurityService securityService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		log.debug("授权:获取用户对应的角色权限");
+		log.debug("登录或认证:获取用户对应的角色权限");
 		String password = securityService.getPasswordByUserName(username);
 		if (StringUtils.isBlank(password)) {
 			log.error(username + "账号不存在");

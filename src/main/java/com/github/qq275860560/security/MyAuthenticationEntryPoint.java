@@ -1,9 +1,7 @@
 package com.github.qq275860560.security;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,17 +29,20 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	@Override
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-			AuthenticationException authException) throws IOException, ServletException {
-
-		log.debug("认证失败", authException);
-		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
-			{
-				put("code", HttpStatus.UNAUTHORIZED.value());
-				put("msg", "认证失败");
-				put("data", authException.getMessage());
-			}
-		}));
+			AuthenticationException authException) {
+		try {
+			log.debug("认证失败", authException);
+			response.setStatus(HttpStatus.UNAUTHORIZED.value());
+			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
+			response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
+				{
+					put("code", HttpStatus.UNAUTHORIZED.value());
+					put("msg", "认证失败");
+					put("data", authException.getMessage());
+				}
+			}));
+		} catch (Exception e) {
+			log.error("", e);
+		}
 	}
 }

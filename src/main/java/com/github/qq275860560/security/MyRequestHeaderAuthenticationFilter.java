@@ -11,15 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +26,9 @@ import lombok.extern.slf4j.Slf4j;
  * @author jiangyuanlin@163.com
  *
  */
-@Order(value=1)
-@Component
+
 @Slf4j
-public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+public class MyRequestHeaderAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	@Autowired
 	private PublicKey publicKey;
@@ -40,6 +37,18 @@ public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthentica
 
 	@Autowired
 	private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
+
+	public MyRequestHeaderAuthenticationFilter(AuthenticationManager authenticationManager, PublicKey publicKey,
+			MyUserDetailsService myUserDetailsService, MyAuthenticationEntryPoint myAuthenticationEntryPoint
+
+	) {
+
+		super.setAuthenticationManager(authenticationManager);
+		this.publicKey = publicKey;
+		this.myUserDetailsService = myUserDetailsService;
+		this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
+
+	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -52,12 +61,11 @@ public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthentica
 			chain.doFilter(request, response);
 			return;
 		}
-		// 实现url带access_token的功能
 
 		try {
 			// parse the token.
-			String username = Jwts.parser()
-					.setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", "")).getBody().getSubject();
+			String username = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", ""))
+					.getBody().getSubject();
 			UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
@@ -73,12 +81,6 @@ public class MyRequestHeaderAuthenticationFilter extends RequestHeaderAuthentica
 		}
 
 		chain.doFilter(request, response);
-	}
-
-	@Override
-	@Autowired
-	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-		super.setAuthenticationManager(authenticationManager);
 	}
 
 }

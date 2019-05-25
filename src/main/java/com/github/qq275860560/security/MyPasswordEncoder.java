@@ -17,14 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 public class MyPasswordEncoder extends BCryptPasswordEncoder {
 	@Autowired
 	private SecurityService securityService;
-	
+
 	public String encode(CharSequence rawPassword) {
 		return securityService.encode(rawPassword);
 	}
 
 	public boolean matches(CharSequence rawPassword, String encodedPassword) {
-		return  securityService.matches(rawPassword, encodedPassword);
+		return securityService.matches(rawPassword, encodedPassword);
 	}
- 
 
 }
