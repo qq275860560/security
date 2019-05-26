@@ -2,6 +2,7 @@ package com.github.qq275860560.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -37,11 +38,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		Set<String> set = securityService.getRoleNameSetByUrI(requestURI);// 获取url及其正则对应角色/权限,比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
 		// 如果url对应的角色/权限为空或者包含ROLE_ANONYMOUS，直接放行，比如/login接口必定要放行(这种情况也可以通过WebSecurityConfigurerAdapter.configure(HttpSecurity)配置)
 		if (set == null || set.isEmpty() || set.contains("ROLE_ANONYMOUS")) {
-			return new HashSet<ConfigAttribute>() {
-				{
-					add(new SecurityConfig("ROLE_ANONYMOUS"));
-				}
-			};
+			return Collections.EMPTY_LIST;
 		}
 		Collection<ConfigAttribute> configAttributes = new ArrayList<>();
 		for (String roleName : set) {

@@ -78,8 +78,7 @@ public abstract class SecurityService {
 	 * @return
 	 */
 	public long getExpirationSeconds() {
-		long expirationSeconds = 10*365*24*3600L;
-		return expirationSeconds;
+		return 10*365*24*3600L;	 
 	}
 
 	/**私钥字符串(参考https://github.com/qq275860560/common/blob/master/src/main/java/com/github/qq275860560/common/util/RsaUtil.java)

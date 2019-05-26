@@ -5,10 +5,12 @@
 如果项目采用spring框架，那么可以模仿该项目代码进行安全控制,支持微服务jwt认证模式
 
 # 功能
-## 私钥配置
+## token私钥配置
 com.github.qq275860560.security.MyPrivateKeyConfig
-## 公钥配置
+## token公钥配置
 com.github.qq275860560.security.MyPublicKeyConfig
+## 密码加密策略
+com.github.qq275860560.security.MyPasswordEncoder
 ## 登录
 com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter
 ## 登录失败

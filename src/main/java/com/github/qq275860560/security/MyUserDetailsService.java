@@ -32,8 +32,8 @@ public class MyUserDetailsService implements UserDetailsService {
 		log.debug("登录或认证:获取用户对应的角色权限");
 		String password = securityService.getPasswordByUserName(username);
 		if (StringUtils.isBlank(password)) {
-			log.error(username + "账号不存在");
-			throw new UsernameNotFoundException(username + "账号不存在");
+			log.error(username + "用户不存在");
+			throw new UsernameNotFoundException(username + "用户不存在");
 		}
 		boolean enabled = true;// 帐号是否可用
 		boolean accountNonExpired = true;// 帐户是否过期

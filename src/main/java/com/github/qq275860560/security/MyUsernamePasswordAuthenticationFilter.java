@@ -2,6 +2,7 @@ package com.github.qq275860560.security;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,6 +19,7 @@ public class MyUsernamePasswordAuthenticationFilter extends UsernamePasswordAuth
 			MyAuthenticationFailureHandler myAuthenticationFailureHandler) {
 		super();
 		super.setPostOnly(false);
+		super.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/login"));
 		super.setAuthenticationManager(authenticationManager);
 		super.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
 		super.setAuthenticationFailureHandler(myAuthenticationFailureHandler);

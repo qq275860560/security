@@ -120,7 +120,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 使用自定义授权策略
 		// http.authorizeRequests().anyRequest().access("@myAuthorization.check(authentication,request)");
 
-		http.authorizeRequests().anyRequest().authenticated();
+		//http.authorizeRequests().anyRequest().authenticated();
+		 http.requestMatchers().antMatchers("/login","/api/**","/oauth/authorize","/oauth/token","/oauth/check_token","/oauth/confirm_access","/oauth/error")
+         .and()
+         .authorizeRequests()
+         .antMatchers("/**").authenticated();
+		
 		http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
 			@Override
 			public <O extends FilterSecurityInterceptor> O postProcess(O o) {
