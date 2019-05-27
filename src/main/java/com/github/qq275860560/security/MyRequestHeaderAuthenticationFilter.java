@@ -63,8 +63,8 @@ public class MyRequestHeaderAuthenticationFilter extends UsernamePasswordAuthent
 		}
 
 		try {
-			// parse the token.
-			String token = header.replace("Bearer ", "");
+			// eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.dXNlcm5hbWUx.bp4hmd1qwHyeZWHd9yqlNAeb6fyA0ZucxRlMg_YP2XkZZB8IHn-zewIndgudnr01c3M4Nb0_FMx6e5LqhOJwaQ
+			String token = header.replaceAll("Bearer\\s+", "");
 			String username = JwtHelper.decodeAndVerify(token, rsaVerifier).getClaims();
 			UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 

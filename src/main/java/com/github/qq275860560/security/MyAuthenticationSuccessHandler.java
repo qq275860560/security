@@ -50,9 +50,9 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
 			{
-				put("code", HttpStatus.OK.value());
-				put("msg", "登录成功");
 				put("access_token", token);
+				put("code", HttpStatus.OK.value());
+				put("msg", "登录成功");				
 				put("token_type", "bearer");
 				put("expires_in", securityService.getExpirationSeconds());
 

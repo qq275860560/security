@@ -2,6 +2,7 @@ package com.github.qq275860560.service;
 
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,10 +56,9 @@ public abstract class SecurityService {
 	 * @param url 请求路径（ip端口之后的路径）
 	 * @return
 	 */
-	public Set<String> getRoleNameSetByUrI(String url){
-		return new HashSet<String>() {{
-			add("ROLE_ANONYMOUS");// 数据库查出来的url角色权限，默认只要具有ROLE_ANONYMOUS角色的用户即可访问
-		}};
+	public Set<String> getAttributesByUrI(String url){//ROLE_开头或SCOPE_开头
+		return Collections.EMPTY_SET;  // 数据库查出来的url角色权限，默认只要具有ROLE_ANONYMOUS角色的用户即可访问
+	 
 	}
 
 	/**
@@ -69,9 +69,8 @@ public abstract class SecurityService {
 	 * @return
 	 */
 	public Set<String> getRoleNameSetByUsername(String username){
-		return new HashSet<String>() {{
-			add("ROLE_ANONYMOUS");// 数据库查出来的用户角色权限，默认此用户可以访问ROLE_ANONYMOUS角色的url
-		}};
+		return Collections.EMPTY_SET;// 数据库查出来的用户角色权限，默认此用户没有特殊权限，跟未登录的用户（匿名用户，游客）相同
+		
 	}
 
 	/**token的过期时间(单位为秒)

@@ -35,9 +35,8 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		log.debug("授权:获取url对应的角色权限");
 		HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
 		String requestURI = request.getRequestURI();
-		Set<String> set = securityService.getRoleNameSetByUrI(requestURI);// 获取url及其正则对应角色/权限,比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
-		// 如果url对应的角色/权限为空或者包含ROLE_ANONYMOUS，直接放行，比如/login接口必定要放行(这种情况也可以通过WebSecurityConfigurerAdapter.configure(HttpSecurity)配置)
-		if (set == null || set.isEmpty() || set.contains("ROLE_ANONYMOUS")) {
+		Set<String> set = securityService.getAttributesByUrI(requestURI);// 获取url及其正则对应角色/权限(ROLE_开头或SCOPE_开头),比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
+		if (set == null) {
 			return Collections.EMPTY_LIST;
 		}
 		Collection<ConfigAttribute> configAttributes = new ArrayList<>();

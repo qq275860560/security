@@ -1,17 +1,8 @@
 package com.github.qq275860560.config;
 
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.vote.AbstractAccessDecisionManager;
-import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.AuthenticatedVoter;
-import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,11 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.jwt.crypto.sign.RsaVerifier;
-import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.github.qq275860560.security.MyAccessDeniedHandler;
+import com.github.qq275860560.security.MyAffirmativeBased;
 import com.github.qq275860560.security.MyAuthenticationEntryPoint;
 import com.github.qq275860560.security.MyAuthenticationFailureHandler;
 import com.github.qq275860560.security.MyAuthenticationSuccessHandler;
@@ -67,15 +58,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
 
-	@Bean
-	public AbstractAccessDecisionManager accessDecisionManager() {
-		List<AccessDecisionVoter<? extends Object>> decisionVoters = Arrays.asList(new WebExpressionVoter(),
-				new RoleVoter(), // 角色投票器,默认前缀为ROLE_,可以改成角色继承投票器
-				new AuthenticatedVoter());
-		return new AffirmativeBased(decisionVoters);
-
-	}
-
+	@Autowired
+	private MyAffirmativeBased myAffirmativeBased;
+	 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -122,7 +107,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// http.authorizeRequests().anyRequest().access("@myAuthorization.check(authentication,request)");
 
 		//http.authorizeRequests().anyRequest().authenticated();
-		 http.requestMatchers().antMatchers("/login","/api/**","/oauth/authorize","/oauth/token","/oauth/check_token","/oauth/confirm_access","/oauth/error")
+		 http.requestMatchers().antMatchers("/login","/api/**","/oauth/authorize","/oauth/token","/oauth/check_token","/oauth/token_key","/oauth/confirm_access","/oauth/error")
          .and()
          .authorizeRequests()
          .antMatchers("/**").authenticated();
@@ -131,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			@Override
 			public <O extends FilterSecurityInterceptor> O postProcess(O o) {
 				o.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
-				o.setAccessDecisionManager(accessDecisionManager());
+				o.setAccessDecisionManager(myAffirmativeBased);
 				return o;
 			}
 		});
