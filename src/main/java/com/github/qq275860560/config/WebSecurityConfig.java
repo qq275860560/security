@@ -21,6 +21,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -55,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private MyAccessDeniedHandler myAccessDeniedHandler;
 	@Autowired
-	private PublicKey publicKey;
+	private RsaVerifier rsaVerifier;
 	@Autowired
 	private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 	@Autowired
@@ -110,7 +111,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.logout().addLogoutHandler(myLogoutHandler).logoutSuccessHandler(myLogoutSuccessHandler);
 		http.httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint);
 
-		http.addFilterBefore(new MyRequestHeaderAuthenticationFilter(authenticationManagerBean(), publicKey,
+		http.addFilterBefore(new MyRequestHeaderAuthenticationFilter(authenticationManagerBean(), rsaVerifier,
 				myUserDetailsService, myAuthenticationEntryPoint), UsernamePasswordAuthenticationFilter.class);
 
 		http.addFilterBefore(new MyUsernamePasswordAuthenticationFilter(authenticationManagerBean(),

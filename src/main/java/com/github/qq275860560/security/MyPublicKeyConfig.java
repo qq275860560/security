@@ -2,11 +2,13 @@ package com.github.qq275860560.security;
 
 import java.security.KeyFactory;
 import java.security.PublicKey;
+import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.util.Base64Utils;
 
 import com.github.qq275860560.service.SecurityService;
@@ -41,6 +43,12 @@ public class MyPublicKeyConfig {
 		KeyFactory keyFactory_publicKey = KeyFactory.getInstance("RSA");
 		return keyFactory_publicKey.generatePublic(keySpec_publicKey);
 
+	}
+	
+	
+	@Bean
+	public RsaVerifier getRsaVerifier() throws Exception  {
+		return new RsaVerifier((RSAPublicKey) getPublicKey() );
 	}
 
 }

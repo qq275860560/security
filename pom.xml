@@ -4,7 +4,7 @@
 
     <groupId>com.github.qq275860560</groupId>
 	<artifactId>github-qq275860560-security</artifactId>
-	<version>20190527</version>
+	<version>2019052713</version>
 	<packaging>jar</packaging>
 	<name>github-qq275860560-security</name>
 	<description>github-qq275860560-security</description>	
@@ -76,10 +76,10 @@
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-        </dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-jwt</artifactId>
+		    <version>1.0.10.RELEASE</version>
+		</dependency>
         <dependency>
 		   <groupId>org.projectlombok</groupId>
 		   <artifactId>lombok</artifactId>

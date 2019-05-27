@@ -1,7 +1,6 @@
 package com.github.qq275860560.security;
 
 import java.io.IOException;
-import java.security.PublicKey;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -16,10 +15,11 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -30,21 +30,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyRequestHeaderAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-	@Autowired
-	private PublicKey publicKey;
-	@Autowired
+ 
+	private RsaVerifier rsaVerifier;
+ 
 	private MyUserDetailsService myUserDetailsService;
 
-	@Autowired
+ 
 	private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
-	public MyRequestHeaderAuthenticationFilter(AuthenticationManager authenticationManager, PublicKey publicKey,
+	public MyRequestHeaderAuthenticationFilter(AuthenticationManager authenticationManager, RsaVerifier rsaVerifier,
 			MyUserDetailsService myUserDetailsService, MyAuthenticationEntryPoint myAuthenticationEntryPoint
 
 	) {
 
 		super.setAuthenticationManager(authenticationManager);
-		this.publicKey = publicKey;
+		this.rsaVerifier = rsaVerifier;
 		this.myUserDetailsService = myUserDetailsService;
 		this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
 
@@ -64,8 +64,8 @@ public class MyRequestHeaderAuthenticationFilter extends UsernamePasswordAuthent
 
 		try {
 			// parse the token.
-			String username = Jwts.parser().setSigningKey(publicKey).parseClaimsJws(header.replace("Bearer ", ""))
-					.getBody().getSubject();
+			String token = header.replace("Bearer ", "");
+			String username = JwtHelper.decodeAndVerify(token, rsaVerifier).getClaims();
 			UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
 
 			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,

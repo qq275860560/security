@@ -2,11 +2,13 @@ package com.github.qq275860560.security;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;
+import java.security.interfaces.RSAPrivateKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.util.Base64Utils;
 
 import com.github.qq275860560.service.SecurityService;
@@ -42,4 +44,9 @@ public class MyPrivateKeyConfig {
 
 	}
 
+	
+	@Bean
+	public RsaSigner getRsaSigner() throws Exception  {
+		return new RsaSigner((RSAPrivateKey) getPrivateKey() );
+	}
 }

@@ -1,8 +1,6 @@
 package com.github.qq275860560.security;
 
 import java.io.IOException;
-import java.security.PrivateKey;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -13,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.jwt.JwtHelper;
+import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.qq275860560.service.SecurityService;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,7 +33,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 	private SecurityService securityService;
 
 	@Autowired
-	private PrivateKey privateKey;
+	private RsaSigner rsaSigner;
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -45,9 +43,8 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			Authentication authentication) throws IOException, ServletException {
 
 		log.debug("登录成功");
-		String token = Jwts.builder().setSubject(authentication.getName())
-				.setExpiration(new Date(System.currentTimeMillis() + securityService.getExpirationSeconds() * 1000))
-				.signWith(SignatureAlgorithm.RS256, privateKey).compact();
+		
+		String token = JwtHelper.encode(authentication.getName(), rsaSigner).getEncoded();
 		response.addHeader("Authorization", "Bearer " + token);
 
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
