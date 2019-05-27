@@ -17,7 +17,6 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.github.qq275860560.security.MyAccessDeniedHandler;
-import com.github.qq275860560.security.MyAffirmativeBased;
 import com.github.qq275860560.security.MyAuthenticationEntryPoint;
 import com.github.qq275860560.security.MyAuthenticationFailureHandler;
 import com.github.qq275860560.security.MyAuthenticationSuccessHandler;
@@ -25,6 +24,7 @@ import com.github.qq275860560.security.MyFilterInvocationSecurityMetadataSource;
 import com.github.qq275860560.security.MyLogoutHandler;
 import com.github.qq275860560.security.MyLogoutSuccessHandler;
 import com.github.qq275860560.security.MyRequestHeaderAuthenticationFilter;
+import com.github.qq275860560.security.MyRoleAffirmativeBased;
 import com.github.qq275860560.security.MyUserDetailsService;
 import com.github.qq275860560.security.MyUsernamePasswordAuthenticationFilter;
 
@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
 
 	@Autowired
-	private MyAffirmativeBased myAffirmativeBased;
-	 
+	private MyRoleAffirmativeBased myRoleAffirmativeBased;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -106,17 +106,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 使用自定义授权策略
 		// http.authorizeRequests().anyRequest().access("@myAuthorization.check(authentication,request)");
 
-		//http.authorizeRequests().anyRequest().authenticated();
-		 http.requestMatchers().antMatchers("/login","/api/**","/oauth/authorize","/oauth/token","/oauth/check_token","/oauth/token_key","/oauth/confirm_access","/oauth/error")
-         .and()
-         .authorizeRequests()
-         .antMatchers("/**").authenticated();
-		
+		// http.authorizeRequests().anyRequest().authenticated();
+		http.requestMatchers()
+				.antMatchers("/login", "/api/**", "/oauth/authorize", "/oauth/token", "/oauth/check_token",
+						"/oauth/token_key", "/oauth/confirm_access", "/oauth/error")
+				.and().authorizeRequests().antMatchers("/**").authenticated();
+
 		http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
 			@Override
 			public <O extends FilterSecurityInterceptor> O postProcess(O o) {
 				o.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
-				o.setAccessDecisionManager(myAffirmativeBased);
+				o.setAccessDecisionManager(myRoleAffirmativeBased);
 				return o;
 			}
 		});

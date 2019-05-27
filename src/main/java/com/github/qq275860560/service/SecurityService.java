@@ -73,11 +73,12 @@ public abstract class SecurityService {
 		
 	}
 
+	
 	/**token的过期时间(单位为秒)
 	 * @return
 	 */
-	public long getExpirationSeconds() {
-		return 10*365*24*3600L;	 
+	public int getAccessTokenValiditySeconds() {
+		return 10*365*24*3600;	 
 	}
 
 	/**私钥字符串(参考https://github.com/qq275860560/common/blob/master/src/main/java/com/github/qq275860560/common/util/RsaUtil.java)

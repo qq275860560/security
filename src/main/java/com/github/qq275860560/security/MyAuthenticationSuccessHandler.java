@@ -1,7 +1,9 @@
 package com.github.qq275860560.security;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,8 +45,29 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			Authentication authentication) throws IOException, ServletException {
 
 		log.debug("登录成功");
-		
-		String token = JwtHelper.encode(authentication.getName(), rsaSigner).getEncoded();
+		String payload = objectMapper.writeValueAsString(new HashMap<String, Object>() {
+			{
+				put("exp", System.currentTimeMillis() / 1000 + securityService.getAccessTokenValiditySeconds());
+				put("user_name", authentication.getName());
+
+				put("authorities", new ArrayList<String>() {
+					{
+						addAll(securityService.getRoleNameSetByUsername(authentication.getName()));
+					}
+				});
+				put("jti", UUID.randomUUID());
+				put("client_id", authentication.getName());
+				put("scope", new ArrayList<String>() {
+					{
+
+					}
+				});
+
+			}
+		});
+		String token = JwtHelper.encode(payload, rsaSigner).getEncoded();
+		// String token = JwtHelper.encode(authentication.getName(),
+		// rsaSigner).getEncoded();
 		response.addHeader("Authorization", "Bearer " + token);
 
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
@@ -52,9 +75,9 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 			{
 				put("access_token", token);
 				put("code", HttpStatus.OK.value());
-				put("msg", "登录成功");				
+				put("msg", "登录成功");
 				put("token_type", "bearer");
-				put("expires_in", securityService.getExpirationSeconds());
+				put("expires_in", System.currentTimeMillis() / 1000 + securityService.getAccessTokenValiditySeconds());
 
 			}
 		}));
