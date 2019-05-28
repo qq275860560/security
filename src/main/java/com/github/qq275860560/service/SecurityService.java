@@ -3,10 +3,9 @@ package com.github.qq275860560.service;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -35,12 +34,11 @@ public abstract class SecurityService {
 	};
 
 	/**根据登录账号查询密码
-	  * 根据登录账号查询密码，此密码非明文密码，而是PasswordEncoder对明文加密后的密码，因为
+	 * 根据登录账号查询密码，此密码非明文密码，而是PasswordEncoder对明文加密后的密码，因为
 	 * spring security框架中数据库默认保存的是PasswordEncoder对明文加密后的密码
-	 *   用户发送的密码加密后会跟这个函数返回的密码相匹配，如果成功，则认证成功，并保存到session中，程序任何地方可以通过以下代码获取当前的username
+	 * 用户发送的密码加密后会跟这个函数返回的密码相匹配，如果成功，则认证成功，并保存到session中，程序任何地方可以通过以下代码获取当前的username
 	 * String username=(String)SecurityContextHolder.getContext().getAuthentication().getName();  
-	 *  再根据用户名称查询数据库获得其他个人信息
-	 *    
+	 * 再根据用户名称查询数据库获得其他个人信息
 	 * @param username 登录用户名称
 	 * @return 返回字符串
 	 */
@@ -49,33 +47,55 @@ public abstract class SecurityService {
 	}
 
 	/**
-	 *   根据请求路径查询对应的角色名称列表，
-	 *   登录用户至少拥有一个角色，才能访问
-	 *   如果返回null或空集合或包含ROLE_ANONYMOUS，代表该url不需要权限控制，任何用户(包括匿名)用户都可以访问
-	 *   如果url符合某个正则表达式，应当把正则表达式的角色也返回，比如/api/a的角色为ROLE_1,ROLE_2, 而数据库中还存在/api/*的角色为ROLE_3,ROLE_4；由于/api/a属于正则表达式/api/*,所以应当返回ROLE_1,ROLE_2,ROLE_3,ROLE_4
+	 * 根据请求路径查询对应的角色名称列表，
+	 * 登录用户至少拥有一个角色，才能访问
+	 * 如果返回null或空集合或包含ROLE_ANONYMOUS，代表该url不需要权限控制，任何用户(包括匿名)用户都可以访问
+	 * 如果url符合某个正则表达式，应当把正则表达式的角色也返回，比如/api/a的角色为ROLE_1,ROLE_2, 而数据库中还存在/api/*的角色为ROLE_3,ROLE_4；由于/api/a属于正则表达式/api/*,所以应当返回ROLE_1,ROLE_2,ROLE_3,ROLE_4
 	 * @param url 请求路径（ip端口之后的路径）
-	 * @return
+	 * @return 权限集合
 	 */
-	public Set<String> getAttributesByUrI(String url){//ROLE_开头或SCOPE_开头
+	public Set<String> getAttributesByUrI(String url){//ROLE_开头开头
 		return Collections.EMPTY_SET;  // 数据库查出来的url角色权限，默认只要具有ROLE_ANONYMOUS角色的用户即可访问
 	 
 	}
 
 	/**
-	 *   根据登录用户查询对应的角色名称列表，
-	 *   如果返回null或空集合，代表该用户没有权限，这类用户其实跟匿名用户没有什么区别
-	 *   如果username隶属于某高层次的角色或组织，应当把高层次的角色或组织对应的角色也返回，比如username的角色为ROLE_1, ROLE_1继承ROLE_2角色，并且username属于A部门，A部门拥有角色ROLE_3；所以应当返回ROLE_1,ROLE_2,ROLE_3
+	 * 根据登录用户查询对应的角色名称列表，
+	 * 如果返回null或空集合，代表该用户没有权限，这类用户其实跟匿名用户没有什么区别
+	 * 如果username隶属于某高层次的角色或组织，应当把高层次的角色或组织对应的角色也返回，比如username的角色为ROLE_1, ROLE_1继承ROLE_2角色，并且username属于A部门，A部门拥有角色ROLE_3；所以应当返回ROLE_1,ROLE_2,ROLE_3
 	 * @param username 登录用户名称
-	 * @return
+	 * @return 角色名称集合
 	 */
-	public Set<String> getRoleNameSetByUsername(String username){
+	public Set<String> getRoleNamesByUsername(String username){
 		return Collections.EMPTY_SET;// 数据库查出来的用户角色权限，默认此用户没有特殊权限，跟未登录的用户（匿名用户，游客）相同
 		
 	}
 
+	/**
+	 * 根据登录用户id查询客户端ID
+	 * clientId默认和username一样
+	 * 如果业务没有开放接口，或者该用户没有权限访问开放接口，忽略此接口，
+	 * @param username 登录用户名称
+	 * @return 客户端id
+	 */
+	public String getClientIdByUsername(String username){
+		return username;// 	
+	}
+	/**
+	 * 根据客户端id查询客户端的信息
+	 * 此接口是为了和oauth2的密码模式相互兼容，使用/login获取的token也可以访问开放接口
+	 * 默认返回空信息
+	 * 如果业务没有开放接口，或者该用户没有权限访问开放接口，返回空，
+	 * 如果需要访问某个接口，其接口所需的SCOPE为SCOPE_USER,SCOPE_ADMIN,那么请返回包含USER,ADMIN的SCOPE集合,不需要前缀,
+	 * @param clientId 客户端ID
+	 * @return 客户端信息(至少包括一个scope字段)
+	 */
+	public Map<String,Object> loadClientByClientId(String clientId){
+		return Collections.EMPTY_MAP;// return new HashMap<String,Object>() {{put("scope","ADMIN,USER");}	
+	}
 	
-	/**token的过期时间(单位为秒)
-	 * @return
+	/**token的过期时长(单位为秒)
+	 * @return 秒
 	 */
 	public int getAccessTokenValiditySeconds() {
 		return 10*365*24*3600;	 

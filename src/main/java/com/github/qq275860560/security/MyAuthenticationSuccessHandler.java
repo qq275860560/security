@@ -3,6 +3,7 @@ package com.github.qq275860560.security;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import org.springframework.security.jwt.JwtHelper;
 import org.springframework.security.jwt.crypto.sign.RsaSigner;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.qq275860560.service.SecurityService;
@@ -52,24 +54,24 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
 				put("authorities", new ArrayList<String>() {
 					{
-						addAll(securityService.getRoleNameSetByUsername(authentication.getName()));
+						addAll(securityService.getRoleNamesByUsername(authentication.getName()));
 					}
 				});
 				put("jti", UUID.randomUUID());
-				put("client_id", authentication.getName());
-				put("scope", new ArrayList<String>() {
-					{
-
+				// client_id和scope字段不是必须的，存在是为了考虑兼容oauth2的密码模式,需要实现getClientIdByUsername和loadClientByClientId接口
+				String clientId = securityService.getClientIdByUsername(authentication.getName());
+				if (!StringUtils.isEmpty(clientId)) {
+					put("client_id", clientId);
+					Map<String, Object> client = securityService.loadClientByClientId(clientId);
+					if (client != null && !StringUtils.isEmpty((String) client.get("scope"))) {
+						put("scope", ((String) client.get("scope")).split(","));
 					}
-				});
+				}
 
 			}
 		});
 		String token = JwtHelper.encode(payload, rsaSigner).getEncoded();
-		// String token = JwtHelper.encode(authentication.getName(),
-		// rsaSigner).getEncoded();
 		response.addHeader("Authorization", "Bearer " + token);
-
 		response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 		response.getWriter().write(objectMapper.writeValueAsString(new HashMap<String, Object>() {
 			{

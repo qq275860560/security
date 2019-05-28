@@ -40,7 +40,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		boolean credentialsNonExpired = true;// 帐户密码是否过期，一般有的密码要求性高的系统会使用到，比较每隔一段时间就要求用户重置密码
 		boolean accountNonLocked = true;// 帐户是否被冻结
 
-		Set<String> set = securityService.getRoleNameSetByUsername(username);
+		Set<String> set = securityService.getRoleNamesByUsername(username);
 		// 初始化用户的权限
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
 				.commaSeparatedStringToAuthorityList(StringUtils.join(set.iterator(), ","));
