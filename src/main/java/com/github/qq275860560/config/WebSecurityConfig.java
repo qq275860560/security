@@ -110,7 +110,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.requestMatchers()
 				.antMatchers("/login", "/api/**", "/oauth/authorize", "/oauth/token", "/oauth/check_token",
 						"/oauth/token_key", "/oauth/confirm_access", "/oauth/error")
-				.and().authorizeRequests().antMatchers("/**").authenticated();
+				.and().authorizeRequests().antMatchers("/login", "/api/**","/oauth/authorize", "/oauth/token", "/oauth/check_token",
+						"/oauth/token_key", "/oauth/confirm_access", "/oauth/error").authenticated();
 
 		http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
 			@Override
