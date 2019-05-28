@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Component
 @Slf4j
-public class MyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+public class MyRoleFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
 	@Autowired
 	private SecurityService securityService;
@@ -35,7 +35,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
 		log.debug("授权:获取url对应的角色权限");
 		HttpServletRequest request = ((FilterInvocation) object).getHttpRequest();
 		String requestURI = request.getRequestURI();
-		Set<String> set = securityService.getAttributesByUrI(requestURI);// 获取url及其正则对应角色/权限(ROLE_开头或SCOPE_开头),比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
+		Set<String> set = securityService.getRoleNamesByUrI(requestURI);// 获取url及其正则对应角色/权限(ROLE_开头或SCOPE_开头),比如访问路径有/api/user/updateUser,应当查询/*,/api/*,/api/user/*,/api/user/updateUser对应的角色/权限并集
 		if (set == null) {
 			return Collections.EMPTY_LIST;
 		}

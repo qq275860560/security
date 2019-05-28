@@ -2,9 +2,15 @@
 登录认证授权组件
 
 # 适用场景
-如果项目采用spring框架，那么可以模仿该项目代码进行安全控制,支持微服务jwt认证模式
+简化spring默认的安全框架使用，暴露出项目常用的几个接口[SecurityService](https://github.com/qq275860560/security/blob/master/src/main/java/com/github/qq275860560/service/SecurityService.java)
 
-# 功能
+# 接口功能
+## 根据登录用户查询密码
+## 根据登录用户查询对应的角色名称集合
+## 根据请求路径查询对应的角色名称集合
+
+
+# 技术实现
 ## token私钥配置
 com.github.qq275860560.security.MyPrivateKeyConfig
 ## token公钥配置
@@ -26,7 +32,9 @@ com.github.qq275860560.security.MyUserDetailsService
 com.github.qq275860560.security.MyAuthenticationEntryPoint
 
 ## 授权:获取url对应的角色权限
-com.github.qq275860560.security.MyFilterInvocationSecurityMetadataSource
+com.github.qq275860560.security.MyRoleFilterInvocationSecurityMetadataSource
+## 授权:角色投票决策
+com.github.qq275860560.security.MyRoleAffirmativeBased
 ## 授权失败
 com.github.qq275860560.security.MyAccessDeniedHandler
 

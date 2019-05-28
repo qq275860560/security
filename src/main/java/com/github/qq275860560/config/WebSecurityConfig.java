@@ -20,7 +20,7 @@ import com.github.qq275860560.security.MyAccessDeniedHandler;
 import com.github.qq275860560.security.MyAuthenticationEntryPoint;
 import com.github.qq275860560.security.MyAuthenticationFailureHandler;
 import com.github.qq275860560.security.MyAuthenticationSuccessHandler;
-import com.github.qq275860560.security.MyFilterInvocationSecurityMetadataSource;
+import com.github.qq275860560.security.MyRoleFilterInvocationSecurityMetadataSource;
 import com.github.qq275860560.security.MyLogoutHandler;
 import com.github.qq275860560.security.MyLogoutSuccessHandler;
 import com.github.qq275860560.security.MyRequestHeaderAuthenticationFilter;
@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
 
 	@Autowired
-	private MyFilterInvocationSecurityMetadataSource myFilterInvocationSecurityMetadataSource;
+	private MyRoleFilterInvocationSecurityMetadataSource myRoleFilterInvocationSecurityMetadataSource;
 
 	@Autowired
 	private MyRoleAffirmativeBased myRoleAffirmativeBased;
@@ -115,7 +115,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
 			@Override
 			public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-				o.setSecurityMetadataSource(myFilterInvocationSecurityMetadataSource);
+				o.setSecurityMetadataSource(myRoleFilterInvocationSecurityMetadataSource);
 				o.setAccessDecisionManager(myRoleAffirmativeBased);
 				return o;
 			}

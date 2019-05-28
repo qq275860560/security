@@ -58,14 +58,11 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 					}
 				});
 				put("jti", UUID.randomUUID());
-				// client_id和scope字段不是必须的，存在是为了考虑兼容oauth2的密码模式,需要实现getClientIdByUsername和loadClientByClientId接口
-				String clientId = securityService.getClientIdByUsername(authentication.getName());
-				if (!StringUtils.isEmpty(clientId)) {
-					put("client_id", clientId);
-					Map<String, Object> client = securityService.loadClientByClientId(clientId);
-					if (client != null && !StringUtils.isEmpty((String) client.get("scope"))) {
-						put("scope", ((String) client.get("scope")).split(","));
-					}
+				// token中的client_id和scope字段不是必须的，加入是为了考虑兼容oauth2的密码模式,前提是实现getClientByUsername接口
+				Map<String, Object> client = securityService.getClientByUsername(authentication.getName());
+				if (client!=null && !StringUtils.isEmpty(client.get("clientId")) && !StringUtils.isEmpty(client.get("scope")) ) {
+					put("client_id", client.get("clientId"));
+					put("scope", ((String) client.get("scope")).split(","));					 
 				}
 
 			}
