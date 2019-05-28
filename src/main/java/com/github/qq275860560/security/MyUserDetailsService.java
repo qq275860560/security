@@ -3,7 +3,6 @@ package com.github.qq275860560.security;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.github.qq275860560.service.SecurityService;
 
@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		log.debug("登录或认证:获取用户对应的角色权限");
 		String password = securityService.getPasswordByUserName(username);
-		if (StringUtils.isBlank(password)) {
+		if (StringUtils.isEmpty(password)) {
 			log.error(username + "用户不存在");
 			throw new UsernameNotFoundException(username + "用户不存在");
 		}
@@ -43,7 +43,7 @@ public class MyUserDetailsService implements UserDetailsService {
 		Set<String> set = securityService.getRoleNamesByUsername(username);
 		// 初始化用户的权限
 		List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-				.commaSeparatedStringToAuthorityList(StringUtils.join(set.iterator(), ","));
+				.commaSeparatedStringToAuthorityList(StringUtils.arrayToDelimitedString(set.toArray(), ","));
 		// controller方法参数通过@AuthenticationPrincipal可以获得该对象
 		return new org.springframework.security.core.userdetails.User(username, password, enabled, accountNonExpired,
 				credentialsNonExpired, accountNonLocked, grantedAuthorities);

@@ -17,7 +17,10 @@ import org.springframework.util.DigestUtils;
 public abstract class SecurityService {
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	/**用户密码加密策略(如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法)
+	/**用户密码加密策略
+	 *  用户注册阶段,用户的密码保存到数据库前通常要进行加密，此接口定义解密策略
+	 *  传统使用md5进行加密入库容易猜解，比如所有人的123456进行md5后保存到数据库都是一样的，建议使用BCryptPasswordEncoder
+	 *  如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法
 	 * @param rawPassword 用户登录时输入的明文密码
 	 * @return 数据库中的密码
 	 */
@@ -28,7 +31,9 @@ public abstract class SecurityService {
 
 	
 
-	/**用户密码匹配策略(如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法)
+	/**用户密码匹配策略
+	 *   用户登录阶段,需要校验密码准确性
+	  *  如果使用spring默认的BCryptPasswordEncoder,不需要重写该方法
 	 * @param rawPassword 用户登录时输入的明文密码
 	 * @param encodedPassword 数据库中加密后的密码
 	 * @return 如果匹配返回真，否则返回假
