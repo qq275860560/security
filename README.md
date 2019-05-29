@@ -11,10 +11,8 @@
 
 
 # 技术实现
-## token私钥配置
-com.github.qq275860560.security.MyPrivateKeyConfig
-## token公钥配置
-com.github.qq275860560.security.MyPublicKeyConfig
+## token公钥私钥配置
+com.github.qq275860560.security.MyKeyPairConfig
 ## 密码加密策略
 com.github.qq275860560.security.MyPasswordEncoder
 ## 登录
