@@ -71,15 +71,15 @@ public abstract class SecurityService {
 		
 	}
 	/**
-	 * 根据登录用户查询客户端的信息
+	 * 查询客户端的信息
+	 * 如果此单体项目本身不做认证授权，而是通过oauth2密码模式从认证授权服务器获取结果,此时需要client_id,client_secret
 	 * 此接口是为了和oauth2的密码模式相互兼容，使用/login获取的token也可以访问开放接口
 	 * 默认返回空信息
 	 * 如果业务没有开放接口，或者该用户没有权限访问开放接口，返回空，
 	 * 如果需要访问某个接口，其接口所需的SCOPE为SCOPE_USER,SCOPE_ADMIN,那么请返回包含USER,ADMIN的SCOPE集合,不需要前缀,
-	 * @param username 用户名称
 	 * @return 客户端信息(至少包括一个clientId字段和一个scope字段)
 	 */
-	public Map<String,Object> getClientByUsername(String username){
+	public Map<String,Object> getClient(){
 		return Collections.EMPTY_MAP;// return new HashMap<String,Object>() {{put("clientId":username);put("scope","ADMIN,USER");}	
 	}
 

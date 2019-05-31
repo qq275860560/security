@@ -59,7 +59,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 				});
 				put("jti", UUID.randomUUID());
 				// token中的client_id和scope字段不是必须的，加入是为了考虑兼容oauth2的密码模式,前提是实现getClientByUsername接口
-				Map<String, Object> client = securityService.getClientByUsername(authentication.getName());
+				Map<String, Object> client = securityService.getClient();
 				if (client!=null && !StringUtils.isEmpty(client.get("clientId")) && !StringUtils.isEmpty(client.get("scope")) ) {
 					put("client_id", client.get("clientId"));
 					put("scope", ((String) client.get("scope")).split(","));					 
