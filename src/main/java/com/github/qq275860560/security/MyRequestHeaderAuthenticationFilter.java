@@ -59,13 +59,13 @@ public class MyRequestHeaderAuthenticationFilter extends UsernamePasswordAuthent
 		log.debug("认证");
 		String header = ((HttpServletRequest) request).getHeader("Authorization");
 
-		if (header == null || !header.startsWith("Bearer ")) {
+		if (header == null || !header.toLowerCase().startsWith("bearer ")) {
 			chain.doFilter(request, response);
 			return;
 		}
 
 		try {
-			String token = header.replaceAll("Bearer\\s+", "");
+			String token = header.replaceAll("[B|b]earer\\s+", "");
 			String payload = JwtHelper.decodeAndVerify(token, rsaVerifier).getClaims();
 			String username = (String) objectMapper.readValue(payload, Map.class).get("user_name");
 			if (System.currentTimeMillis() / 1000 > (Integer) objectMapper.readValue(payload, Map.class).get("exp")) {
